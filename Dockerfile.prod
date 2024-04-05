@@ -5,8 +5,9 @@ WORKDIR /home/node/app
 
 FROM base as builder
 
-COPY --chown=node:node package.json yarn.lock /home/node/app/
-COPY --chown=node:node tsconfig.json /home/node/app/
+COPY --chown=node:node ./package.json /home/node/app/package.json
+COPY --chown=node:node ./yarn.lock /home/node/app/yarn.lock
+COPY --chown=node:node ./tsconfig.json /home/node/app/tsconfig.json
 COPY --chown=node:node src /home/node/app/src
 
 RUN yarn install
@@ -17,7 +18,8 @@ FROM base as runtime
 ENV NODE_ENV=production
 ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 
-COPY --chown=node:node package.json yarn.lock /home/node/app/
+COPY --chown=node:node ./package.json /home/node/app/package.json
+COPY --chown=node:node ./yarn.lock /home/node/app/yarn.lock
 
 RUN yarn install --production
 COPY --chown=node:node --from=builder /home/node/app/dist /home/node/app/dist
