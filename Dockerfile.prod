@@ -25,6 +25,9 @@ RUN yarn install --production
 COPY --chown=node:node --from=builder /home/node/app/dist /home/node/app/dist
 COPY --chown=node:node --from=builder /home/node/app/build /home/node/app/build
 
+WORKDIR /home/node/app
+COPY --chown=node:node --from=builder /home/node/app ./
+
 USER node
 EXPOSE 8080
 
