@@ -1,12 +1,12 @@
 services:
   payload:
-    image: node:18-alpine
+    image: 242912/payload:latest
     ports:
       - '8080:8080'
+    networks:
+      - payload
     volumes:
       - ./.env:/opt/app/.env
-    working_dir: /opt/app
-    command: sh -c "yarn install && yarn dev"
     depends_on:
       - mongo
     env_file:
