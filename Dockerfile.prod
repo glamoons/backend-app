@@ -1,25 +1,29 @@
 FROM node:18-alpine as base
 
+RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
+WORKDIR /home/node/app
+
 FROM base as builder
 
-WORKDIR /home/node
-COPY package*.json ./
+COPY --chown=node:node package.json yarn.lock /home/node/app/
+COPY --chown=node:node tsconfig.json /home/node/app/
+COPY --chown=node:node src /home/node/app/src
 
-COPY . .
 RUN yarn install
 RUN yarn build
 
 FROM base as runtime
 
 ENV NODE_ENV=production
+ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 
-WORKDIR /home/node
-COPY package*.json  ./
+COPY --chown=node:node package.json yarn.lock /home/node/app/
 
 RUN yarn install --production
-COPY --from=builder /home/node/dist ./dist
-COPY --from=builder /home/node/build ./build
+COPY --chown=node:node --from=builder /home/node/app/dist /home/node/app/dist
+COPY --chown=node:node --from=build /home/node/app/build /home/node/app/build
 
+USER node
 EXPOSE 8080
 
 CMD ["node", "dist/server.js"]
