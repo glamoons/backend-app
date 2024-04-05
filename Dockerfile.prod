@@ -1,4 +1,7 @@
 FROM node:18-alpine as base
+
+FROM base as builder
+
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -21,9 +24,9 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 WORKDIR /opt/
-COPY --from=build /opt/node_modules ./node_modules
+COPY --from=builder /opt/node_modules ./node_modules
 WORKDIR /opt/app
-COPY --from=build /opt/app ./
+COPY --from=builder /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
 RUN chown -R node:node /opt/app
