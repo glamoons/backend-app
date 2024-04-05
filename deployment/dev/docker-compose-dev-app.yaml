@@ -3,8 +3,6 @@ services:
     image: 242912/payload:latest
     ports:
       - '8080:8080'
-    networks:
-      - payload
     volumes:
       - ./.env:/opt/app/.env
     depends_on:
