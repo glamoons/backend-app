@@ -5,6 +5,7 @@ services:
       - '8080:8080'
     volumes:
       - ./.env:/opt/app/.env
+    working_dir: /opt/app
     command: sh -c "yarn install && yarn dev"
     depends_on:
       - mongo
