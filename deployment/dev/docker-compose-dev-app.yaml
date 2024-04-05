@@ -5,6 +5,8 @@ services:
       - '8080:8080'
     volumes:
       - .:/home/node/app
+      - ./package.json:/home/node/app/package.json
+      - ./yarn.lock:/home/node/app/yarn.lock
       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app
     command: sh -c "yarn install && yarn dev"
