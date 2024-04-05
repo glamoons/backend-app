@@ -1,31 +1,33 @@
 FROM node:18-alpine as base
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-RUN mkdir -p /home/node && chown -R node:node /home/node
-WORKDIR /home/node
-
-FROM base as builder
-
-COPY --chown=node:node package.json /home/node/package.json
-COPY --chown=node:node yarn.lock /home/node/yarn.lock
-COPY --chown=node:node tsconfig.json /home/node/tsconfig.json
-COPY --chown=node:node src /home/node/src
-
-RUN yarn install
+WORKDIR /opt/
+COPY package.json yarn.lock ./
+RUN yarn global add node-gyp
+RUN yarn config set network-timeout 600000 -g && yarn install --production
+ENV PATH /opt/node_modules/.bin:$PATH
+WORKDIR /opt/app
+COPY package.json yarn.lock ./
+COPY tsconfig.json ./
+COPY src ./
 RUN yarn build
 
-FROM base as runtime
 
-ENV NODE_ENV=production
+FROM node:18-alpine
+RUN apk add --no-cache vips-dev
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
+WORKDIR /opt/
+COPY --from=build /opt/node_modules ./node_modules
+WORKDIR /opt/app
+COPY --from=build /opt/app ./
+ENV PATH /opt/node_modules/.bin:$PATH
 
-COPY --chown=node:node ./package.json /home/node/package.json
-COPY --chown=node:node ./yarn.lock /home/node/yarn.lock
-
-RUN yarn install --production
-COPY --chown=node:node --from=builder /home/node/dist /home/node/dist
-COPY --chown=node:node --from=builder /home/node/build /home/node/build
-
+RUN chown -R node:node /opt/app
 USER node
 EXPOSE 8080
 
-CMD ["node", "dist/server.js"]
+CMD ["yarn", "serve"]
