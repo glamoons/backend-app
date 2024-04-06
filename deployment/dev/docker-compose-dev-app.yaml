@@ -15,6 +15,7 @@ services:
 
   database:
     image: postgres
+    container_name: database
     restart: always
     env_file:
       - .env
