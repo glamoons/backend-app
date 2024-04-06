@@ -10,6 +10,7 @@ COPY --chown=node:node tsconfig.json ./
 COPY --chown=node:node src ./src
 
 RUN yarn install
+RUN yarn payload migrate
 RUN yarn build
 
 FROM base as runtime
@@ -20,7 +21,6 @@ ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 COPY --chown=node:node package.json yarn.lock ./
 
 RUN yarn install --production
-RUN yarn payload migrate
 COPY --chown=node:node --from=builder /opt/app/dist ./dist
 COPY --chown=node:node --from=builder /opt/app/build ./build
 
