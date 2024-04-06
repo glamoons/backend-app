@@ -36,6 +36,12 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
+      localized: true,
+    },
+    {
+      name: 'caption',
+      type: 'text',
+      localized: true,
     },
   ],
 }
