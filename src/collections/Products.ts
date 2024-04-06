@@ -24,7 +24,7 @@ export const Products: CollectionConfig = {
     required: true
    },
    {
-    name: 'image',
+    name: 'gallery',
     type: 'upload',
     relationTo: 'media',
     required: true
