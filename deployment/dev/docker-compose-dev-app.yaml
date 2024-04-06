@@ -5,6 +5,7 @@ services:
       - '8080:8080'
     volumes:
       - ./.env:/opt/app/.env
+    command: sh -c "yarn payload:prod migrate"
     depends_on:
       - database
     env_file:
