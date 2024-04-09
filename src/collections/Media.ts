@@ -19,7 +19,7 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
       {
-        name: 'cardLarge',
+        name: 'laptop',
         width: 1024,
         height: 1024,
         position: 'centre',
