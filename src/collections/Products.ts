@@ -7,6 +7,9 @@ export const Products: CollectionConfig = {
   slug: 'products',
   access: {
     read: () => true,
+    create: () => true,
+    delete: () => true,
+    update: () => true,
   },
   fields: [
    {
