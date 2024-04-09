@@ -75,7 +75,6 @@ jobs:
           # Transfer the environment file and Docker Compose file to VPS
           scp -o StrictHostKeyChecking=no -P $SSH_PORT .env $SSH_USER@$SSH_HOST:~
           scp -o StrictHostKeyChecking=no -P $SSH_PORT docker-compose-dev-app.yaml $SSH_USER@$SSH_HOST:~
-          scp -o StrictHostKeyChecking=no -P $SSH_PORT ./src/migrations $SSH_USER@$SSH_HOST:~
 
           # Execute Docker commands on the VPS
           ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST docker compose -f docker-compose-dev-app.yaml pull
