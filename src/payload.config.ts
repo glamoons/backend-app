@@ -20,7 +20,7 @@ export default buildConfig({
   },
   editor: slateEditor({}),
   collections: [Users, Products, Media, Reviews, Orders, Cart],
-  csrf: ["https://dev.glamoons.com", 'http://localhost:3000/'],
+  csrf: ["https://dev.glamoons.com", 'http://localhost:3000'],
   upload: {
     limits: {
       fileSize: 5000000,

@@ -5,6 +5,9 @@ import { Size } from '../variants/Size'
 
 export const Products: CollectionConfig = {
   slug: 'products',
+  access: {
+    read: () => true,
+  },
   fields: [
    {
      name: 'name',
