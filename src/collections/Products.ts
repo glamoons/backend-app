@@ -2,6 +2,7 @@ import { CollectionConfig } from 'payload/types'
 import { Color } from '../variants/Color'
 import { Shape } from '../variants/Shape'
 import { Size } from '../variants/Size'
+import { ProductVariant } from '../variants/ProductVariant'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -59,7 +60,7 @@ export const Products: CollectionConfig = {
     name: 'variants',
     type: 'blocks',
     required: true,
-    blocks: [Color, Shape, Size]
+    blocks: [ProductVariant]
    }
   ],
   graphQL: {
