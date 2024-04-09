@@ -22,7 +22,6 @@ COPY --chown=node:node package.json yarn.lock ./
 RUN yarn install --production
 COPY --chown=node:node --from=builder /opt/app/dist ./dist
 COPY --chown=node:node --from=builder /opt/app/build ./build
-COPY --chown=node:node src/migrations ./dist/migrations
 
 USER node
 EXPOSE 8080
