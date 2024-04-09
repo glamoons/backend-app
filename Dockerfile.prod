@@ -18,6 +18,7 @@ ENV NODE_ENV=production
 ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 
 COPY --chown=node:node package.json yarn.lock ./
+COPY --chown=node:node migrations ./migrations
 
 RUN yarn install --production
 COPY --chown=node:node --from=builder /opt/app/dist ./dist

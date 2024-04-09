@@ -1,4 +1,7 @@
 import { CollectionConfig } from 'payload/types'
+import { Color } from '../variants/Color'
+import { Shape } from '../variants/Shape'
+import { Size } from '../variants/Size'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -15,7 +18,10 @@ export const Products: CollectionConfig = {
     type: 'text',
     localized: true,
     required: true,
-    unique: true
+    unique: true,
+    admin: {
+      position: 'sidebar',
+    }
    },
    {
     name: 'description',
@@ -24,7 +30,7 @@ export const Products: CollectionConfig = {
     required: true
    },
    {
-    name: 'gallery',
+    name: 'image',
     type: 'upload',
     relationTo: 'media',
     required: true
@@ -33,6 +39,21 @@ export const Products: CollectionConfig = {
     name: 'price',
     type: 'number',
     required: true
+   },
+   {
+    name: 'rating',
+    type: 'number',
+    min: 0,
+    max: 5,
+    admin: {
+        position: 'sidebar'
+    }
+   },
+   {
+    name: 'variants',
+    type: 'blocks',
+    required: true,
+    blocks: [Color, Shape, Size]
    }
   ],
   graphQL: {

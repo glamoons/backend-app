@@ -9,6 +9,9 @@ import { buildConfig } from 'payload/config'
 import Users from './collections/Users'
 import { Products } from './collections/Products'
 import { Media } from './collections/Media'
+import { Reviews } from './collections/Reviews'
+import { Orders } from './collections/Orders'
+import { Cart } from './collections/Cart'
 
 export default buildConfig({
   admin: {
@@ -16,7 +19,7 @@ export default buildConfig({
     bundler: webpackBundler(),
   },
   editor: slateEditor({}),
-  collections: [Users, Products, Media],
+  collections: [Users, Products, Media, Reviews, Orders, Cart],
   upload: {
     limits: {
       fileSize: 5000000,

@@ -1,23 +1,32 @@
 type Query {
-  User(id: String!, draft: Boolean): User
+  User(id: Int!, draft: Boolean): User
   Users(draft: Boolean, where: User_where, limit: Int, page: Int, sort: String): Users
-  docAccessUser(id: String!): usersDocAccess
+  docAccessUser(id: Int!): usersDocAccess
   meUser: usersMe
   initializedUser: Boolean
-  Product(id: String!, draft: Boolean): Product
+  Product(id: Int!, draft: Boolean): Product
   Products(draft: Boolean, where: Product_where, limit: Int, page: Int, sort: String): Products
-  docAccessProduct(id: String!): productsDocAccess
-  Media(id: String!, draft: Boolean): Media
+  docAccessProduct(id: Int!): productsDocAccess
+  Media(id: Int!, draft: Boolean): Media
   allMedia(draft: Boolean, where: Media_where, limit: Int, page: Int, sort: String): allMedia
-  docAccessMedia(id: String!): mediaDocAccess
-  PayloadPreference(id: String!, draft: Boolean): PayloadPreference
+  docAccessMedia(id: Int!): mediaDocAccess
+  Review(id: Int!, draft: Boolean): Review
+  Reviews(draft: Boolean, where: Review_where, limit: Int, page: Int, sort: String): Reviews
+  docAccessReview(id: Int!): reviewsDocAccess
+  Order(id: Int!, draft: Boolean): Order
+  Orders(draft: Boolean, where: Order_where, limit: Int, page: Int, sort: String): Orders
+  docAccessOrder(id: Int!): ordersDocAccess
+  Cart(id: Int!, draft: Boolean): Cart
+  Carts(draft: Boolean, where: Cart_where, limit: Int, page: Int, sort: String): Carts
+  docAccessCart(id: Int!): cartDocAccess
+  PayloadPreference(id: Int!, draft: Boolean): PayloadPreference
   PayloadPreferences(draft: Boolean, where: PayloadPreference_where, limit: Int, page: Int, sort: String): PayloadPreferences
-  docAccessPayloadPreference(id: String!): payload_preferencesDocAccess
+  docAccessPayloadPreference(id: Int!): payload_preferencesDocAccess
   Access: Access
 }
 
 type User {
-  id: String
+  id: Int
   updatedAt: DateTime
   createdAt: DateTime
   email: EmailAddress!
@@ -96,13 +105,12 @@ input User_email_operator {
 }
 
 input User_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
@@ -270,12 +278,14 @@ type usersMe {
 }
 
 type Product {
-  id: String
+  id: Int
   name: String!
   slug: String!
   description(depth: Int): JSON!
   image(where: Product_Image_where): Media!
   price: Float!
+  rating: Float
+  variants: [Product_Variants!]!
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -286,8 +296,9 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type Media {
-  id: String
+  id: Int
   alt: String
+  caption: String
   updatedAt: DateTime
   createdAt: DateTime
   url: String
@@ -302,6 +313,7 @@ type Media {
 type Media_Sizes {
   thumbnail: Media_Sizes_Thumbnail
   card: Media_Sizes_Card
+  cardLarge: Media_Sizes_CardLarge
   tablet: Media_Sizes_Tablet
 }
 
@@ -323,6 +335,15 @@ type Media_Sizes_Card {
   filename: String
 }
 
+type Media_Sizes_CardLarge {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
 type Media_Sizes_Tablet {
   url: String
   width: Float
@@ -334,6 +355,7 @@ type Media_Sizes_Tablet {
 
 input Product_Image_where {
   alt: Product_Image_alt_operator
+  caption: Product_Image_caption_operator
   updatedAt: Product_Image_updatedAt_operator
   createdAt: Product_Image_createdAt_operator
   url: Product_Image_url_operator
@@ -354,6 +376,12 @@ input Product_Image_where {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
+  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -366,6 +394,17 @@ input Product_Image_where {
 }
 
 input Product_Image_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Product_Image_caption_operator {
   equals: String
   not_equals: String
   like: String
@@ -587,6 +626,69 @@ input Product_Image_sizes__card__filename_operator {
   exists: Boolean
 }
 
+input Product_Image_sizes__cardLarge__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Product_Image_sizes__cardLarge__width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_Image_sizes__cardLarge__height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_Image_sizes__cardLarge__mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Product_Image_sizes__cardLarge__filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Product_Image_sizes__cardLarge__filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
 input Product_Image_sizes__tablet__url_operator {
   equals: String
   not_equals: String
@@ -663,6 +765,7 @@ input Product_Image_id_operator {
 
 input Product_Image_where_and {
   alt: Product_Image_alt_operator
+  caption: Product_Image_caption_operator
   updatedAt: Product_Image_updatedAt_operator
   createdAt: Product_Image_createdAt_operator
   url: Product_Image_url_operator
@@ -683,6 +786,12 @@ input Product_Image_where_and {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
+  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -696,6 +805,7 @@ input Product_Image_where_and {
 
 input Product_Image_where_or {
   alt: Product_Image_alt_operator
+  caption: Product_Image_caption_operator
   updatedAt: Product_Image_updatedAt_operator
   createdAt: Product_Image_createdAt_operator
   url: Product_Image_url_operator
@@ -716,6 +826,12 @@ input Product_Image_where_or {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
+  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -725,6 +841,49 @@ input Product_Image_where_or {
   id: Product_Image_id_operator
   AND: [Product_Image_where_and]
   OR: [Product_Image_where_or]
+}
+
+union Product_Variants = Color | Shape | Size
+
+type Color {
+  color: [Color_color!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum Color_color {
+  coldWhite
+  warmWhite
+}
+
+type Shape {
+  shape: Shape_shape
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum Shape_shape {
+  circle
+  square
+  rectangle
+}
+
+type Size {
+  size: Size_size
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum Size_size {
+  _30
+  _40
+  _50
+  _60
+  _70
+  _80
 }
 
 type Products {
@@ -747,6 +906,7 @@ input Product_where {
   description: Product_description_operator
   image: Product_image_operator
   price: Product_price_operator
+  rating: Product_rating_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
   id: Product_id_operator
@@ -795,6 +955,16 @@ input Product_price_operator {
   less_than: Float
 }
 
+input Product_rating_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
 input Product_updatedAt_operator {
   equals: DateTime
   not_equals: DateTime
@@ -818,13 +988,12 @@ input Product_createdAt_operator {
 }
 
 input Product_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
@@ -834,6 +1003,7 @@ input Product_where_and {
   description: Product_description_operator
   image: Product_image_operator
   price: Product_price_operator
+  rating: Product_rating_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
   id: Product_id_operator
@@ -847,6 +1017,7 @@ input Product_where_or {
   description: Product_description_operator
   image: Product_image_operator
   price: Product_price_operator
+  rating: Product_rating_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
   id: Product_id_operator
@@ -868,6 +1039,8 @@ type ProductsDocAccessFields {
   description: ProductsDocAccessFields_description
   image: ProductsDocAccessFields_image
   price: ProductsDocAccessFields_price
+  rating: ProductsDocAccessFields_rating
+  variants: ProductsDocAccessFields_variants
   updatedAt: ProductsDocAccessFields_updatedAt
   createdAt: ProductsDocAccessFields_createdAt
 }
@@ -987,6 +1160,52 @@ type ProductsDocAccessFields_price_Delete {
   permission: Boolean!
 }
 
+type ProductsDocAccessFields_rating {
+  create: ProductsDocAccessFields_rating_Create
+  read: ProductsDocAccessFields_rating_Read
+  update: ProductsDocAccessFields_rating_Update
+  delete: ProductsDocAccessFields_rating_Delete
+}
+
+type ProductsDocAccessFields_rating_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_rating_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_rating_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variants {
+  create: ProductsDocAccessFields_variants_Create
+  read: ProductsDocAccessFields_variants_Read
+  update: ProductsDocAccessFields_variants_Update
+  delete: ProductsDocAccessFields_variants_Delete
+}
+
+type ProductsDocAccessFields_variants_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variants_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variants_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variants_Delete {
+  permission: Boolean!
+}
+
 type ProductsDocAccessFields_updatedAt {
   create: ProductsDocAccessFields_updatedAt_Create
   read: ProductsDocAccessFields_updatedAt_Read
@@ -1069,6 +1288,7 @@ type allMedia {
 
 input Media_where {
   alt: Media_alt_operator
+  caption: Media_caption_operator
   updatedAt: Media_updatedAt_operator
   createdAt: Media_createdAt_operator
   url: Media_url_operator
@@ -1089,6 +1309,12 @@ input Media_where {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
+  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -1101,6 +1327,17 @@ input Media_where {
 }
 
 input Media_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Media_caption_operator {
   equals: String
   not_equals: String
   like: String
@@ -1322,6 +1559,69 @@ input Media_sizes__card__filename_operator {
   exists: Boolean
 }
 
+input Media_sizes__cardLarge__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Media_sizes__cardLarge__width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Media_sizes__cardLarge__height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Media_sizes__cardLarge__mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Media_sizes__cardLarge__filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Media_sizes__cardLarge__filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
 input Media_sizes__tablet__url_operator {
   equals: String
   not_equals: String
@@ -1386,18 +1686,18 @@ input Media_sizes__tablet__filename_operator {
 }
 
 input Media_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
 input Media_where_and {
   alt: Media_alt_operator
+  caption: Media_caption_operator
   updatedAt: Media_updatedAt_operator
   createdAt: Media_createdAt_operator
   url: Media_url_operator
@@ -1418,6 +1718,12 @@ input Media_where_and {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
+  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -1431,6 +1737,7 @@ input Media_where_and {
 
 input Media_where_or {
   alt: Media_alt_operator
+  caption: Media_caption_operator
   updatedAt: Media_updatedAt_operator
   createdAt: Media_createdAt_operator
   url: Media_url_operator
@@ -1451,6 +1758,12 @@ input Media_where_or {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
+  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
+  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
+  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
+  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
+  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
+  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -1472,6 +1785,7 @@ type mediaDocAccess {
 
 type MediaDocAccessFields {
   alt: MediaDocAccessFields_alt
+  caption: MediaDocAccessFields_caption
   updatedAt: MediaDocAccessFields_updatedAt
   createdAt: MediaDocAccessFields_createdAt
   url: MediaDocAccessFields_url
@@ -1503,6 +1817,29 @@ type MediaDocAccessFields_alt_Update {
 }
 
 type MediaDocAccessFields_alt_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_caption {
+  create: MediaDocAccessFields_caption_Create
+  read: MediaDocAccessFields_caption_Read
+  update: MediaDocAccessFields_caption_Update
+  delete: MediaDocAccessFields_caption_Delete
+}
+
+type MediaDocAccessFields_caption_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_caption_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_caption_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_caption_Delete {
   permission: Boolean!
 }
 
@@ -1717,6 +2054,7 @@ type MediaDocAccessFields_sizes_Delete {
 type MediaDocAccessFields_sizes_Fields {
   thumbnail: MediaDocAccessFields_sizes_thumbnail
   card: MediaDocAccessFields_sizes_card
+  cardLarge: MediaDocAccessFields_sizes_cardLarge
   tablet: MediaDocAccessFields_sizes_tablet
 }
 
@@ -2062,6 +2400,177 @@ type MediaDocAccessFields_sizes_card_filename_Delete {
   permission: Boolean!
 }
 
+type MediaDocAccessFields_sizes_cardLarge {
+  create: MediaDocAccessFields_sizes_cardLarge_Create
+  read: MediaDocAccessFields_sizes_cardLarge_Read
+  update: MediaDocAccessFields_sizes_cardLarge_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_Delete
+  fields: MediaDocAccessFields_sizes_cardLarge_Fields
+}
+
+type MediaDocAccessFields_sizes_cardLarge_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_Fields {
+  url: MediaDocAccessFields_sizes_cardLarge_url
+  width: MediaDocAccessFields_sizes_cardLarge_width
+  height: MediaDocAccessFields_sizes_cardLarge_height
+  mimeType: MediaDocAccessFields_sizes_cardLarge_mimeType
+  filesize: MediaDocAccessFields_sizes_cardLarge_filesize
+  filename: MediaDocAccessFields_sizes_cardLarge_filename
+}
+
+type MediaDocAccessFields_sizes_cardLarge_url {
+  create: MediaDocAccessFields_sizes_cardLarge_url_Create
+  read: MediaDocAccessFields_sizes_cardLarge_url_Read
+  update: MediaDocAccessFields_sizes_cardLarge_url_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_url_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_url_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_url_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_url_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_url_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_width {
+  create: MediaDocAccessFields_sizes_cardLarge_width_Create
+  read: MediaDocAccessFields_sizes_cardLarge_width_Read
+  update: MediaDocAccessFields_sizes_cardLarge_width_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_width_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_width_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_width_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_width_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_width_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_height {
+  create: MediaDocAccessFields_sizes_cardLarge_height_Create
+  read: MediaDocAccessFields_sizes_cardLarge_height_Read
+  update: MediaDocAccessFields_sizes_cardLarge_height_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_height_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_height_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_height_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_height_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_height_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_mimeType {
+  create: MediaDocAccessFields_sizes_cardLarge_mimeType_Create
+  read: MediaDocAccessFields_sizes_cardLarge_mimeType_Read
+  update: MediaDocAccessFields_sizes_cardLarge_mimeType_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_mimeType_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_mimeType_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_mimeType_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_mimeType_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_mimeType_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filesize {
+  create: MediaDocAccessFields_sizes_cardLarge_filesize_Create
+  read: MediaDocAccessFields_sizes_cardLarge_filesize_Read
+  update: MediaDocAccessFields_sizes_cardLarge_filesize_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_filesize_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filesize_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filesize_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filesize_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filesize_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filename {
+  create: MediaDocAccessFields_sizes_cardLarge_filename_Create
+  read: MediaDocAccessFields_sizes_cardLarge_filename_Read
+  update: MediaDocAccessFields_sizes_cardLarge_filename_Update
+  delete: MediaDocAccessFields_sizes_cardLarge_filename_Delete
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filename_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filename_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filename_Update {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_sizes_cardLarge_filename_Delete {
+  permission: Boolean!
+}
+
 type MediaDocAccessFields_sizes_tablet {
   create: MediaDocAccessFields_sizes_tablet_Create
   read: MediaDocAccessFields_sizes_tablet_Read
@@ -2253,8 +2762,854 @@ type MediaDeleteDocAccess {
   where: JSONObject
 }
 
+type Review {
+  id: Int
+  product: Product!
+  author: String!
+  description(depth: Int): JSON!
+  email: EmailAddress!
+  rating: Float!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Reviews {
+  docs: [Review]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Review_where {
+  product: Review_product_operator
+  author: Review_author_operator
+  description: Review_description_operator
+  email: Review_email_operator
+  rating: Review_rating_operator
+  updatedAt: Review_updatedAt_operator
+  createdAt: Review_createdAt_operator
+  id: Review_id_operator
+  AND: [Review_where_and]
+  OR: [Review_where_or]
+}
+
+input Review_product_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Review_author_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Review_description_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+}
+
+input Review_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input Review_rating_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Review_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Review_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Review_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Review_where_and {
+  product: Review_product_operator
+  author: Review_author_operator
+  description: Review_description_operator
+  email: Review_email_operator
+  rating: Review_rating_operator
+  updatedAt: Review_updatedAt_operator
+  createdAt: Review_createdAt_operator
+  id: Review_id_operator
+  AND: [Review_where_and]
+  OR: [Review_where_or]
+}
+
+input Review_where_or {
+  product: Review_product_operator
+  author: Review_author_operator
+  description: Review_description_operator
+  email: Review_email_operator
+  rating: Review_rating_operator
+  updatedAt: Review_updatedAt_operator
+  createdAt: Review_createdAt_operator
+  id: Review_id_operator
+  AND: [Review_where_and]
+  OR: [Review_where_or]
+}
+
+type reviewsDocAccess {
+  fields: ReviewsDocAccessFields
+  create: ReviewsCreateDocAccess
+  read: ReviewsReadDocAccess
+  update: ReviewsUpdateDocAccess
+  delete: ReviewsDeleteDocAccess
+}
+
+type ReviewsDocAccessFields {
+  product: ReviewsDocAccessFields_product
+  author: ReviewsDocAccessFields_author
+  description: ReviewsDocAccessFields_description
+  email: ReviewsDocAccessFields_email
+  rating: ReviewsDocAccessFields_rating
+  updatedAt: ReviewsDocAccessFields_updatedAt
+  createdAt: ReviewsDocAccessFields_createdAt
+}
+
+type ReviewsDocAccessFields_product {
+  create: ReviewsDocAccessFields_product_Create
+  read: ReviewsDocAccessFields_product_Read
+  update: ReviewsDocAccessFields_product_Update
+  delete: ReviewsDocAccessFields_product_Delete
+}
+
+type ReviewsDocAccessFields_product_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_product_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_product_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_product_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author {
+  create: ReviewsDocAccessFields_author_Create
+  read: ReviewsDocAccessFields_author_Read
+  update: ReviewsDocAccessFields_author_Update
+  delete: ReviewsDocAccessFields_author_Delete
+}
+
+type ReviewsDocAccessFields_author_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_author_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_description {
+  create: ReviewsDocAccessFields_description_Create
+  read: ReviewsDocAccessFields_description_Read
+  update: ReviewsDocAccessFields_description_Update
+  delete: ReviewsDocAccessFields_description_Delete
+}
+
+type ReviewsDocAccessFields_description_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_description_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_description_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_description_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_email {
+  create: ReviewsDocAccessFields_email_Create
+  read: ReviewsDocAccessFields_email_Read
+  update: ReviewsDocAccessFields_email_Update
+  delete: ReviewsDocAccessFields_email_Delete
+}
+
+type ReviewsDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_rating {
+  create: ReviewsDocAccessFields_rating_Create
+  read: ReviewsDocAccessFields_rating_Read
+  update: ReviewsDocAccessFields_rating_Update
+  delete: ReviewsDocAccessFields_rating_Delete
+}
+
+type ReviewsDocAccessFields_rating_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_rating_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_rating_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_updatedAt {
+  create: ReviewsDocAccessFields_updatedAt_Create
+  read: ReviewsDocAccessFields_updatedAt_Read
+  update: ReviewsDocAccessFields_updatedAt_Update
+  delete: ReviewsDocAccessFields_updatedAt_Delete
+}
+
+type ReviewsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_createdAt {
+  create: ReviewsDocAccessFields_createdAt_Create
+  read: ReviewsDocAccessFields_createdAt_Read
+  update: ReviewsDocAccessFields_createdAt_Update
+  delete: ReviewsDocAccessFields_createdAt_Delete
+}
+
+type ReviewsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ReviewsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ReviewsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Order {
+  id: Int
+  lines: JSON!
+  status: Order_status
+  totalAmount: Float!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum Order_status {
+  cancelled
+  created
+  fulfilled
+  paid
+}
+
+type Orders {
+  docs: [Order]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Order_where {
+  lines: Order_lines_operator
+  status: Order_status_operator
+  totalAmount: Order_totalAmount_operator
+  updatedAt: Order_updatedAt_operator
+  createdAt: Order_createdAt_operator
+  id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
+}
+
+input Order_lines_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  within: JSON
+  intersects: JSON
+}
+
+input Order_status_operator {
+  equals: Order_status_Input
+  not_equals: Order_status_Input
+  like: Order_status_Input
+  contains: Order_status_Input
+  exists: Boolean
+}
+
+enum Order_status_Input {
+  cancelled
+  created
+  fulfilled
+  paid
+}
+
+input Order_totalAmount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Order_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Order_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Order_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Order_where_and {
+  lines: Order_lines_operator
+  status: Order_status_operator
+  totalAmount: Order_totalAmount_operator
+  updatedAt: Order_updatedAt_operator
+  createdAt: Order_createdAt_operator
+  id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
+}
+
+input Order_where_or {
+  lines: Order_lines_operator
+  status: Order_status_operator
+  totalAmount: Order_totalAmount_operator
+  updatedAt: Order_updatedAt_operator
+  createdAt: Order_createdAt_operator
+  id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
+}
+
+type ordersDocAccess {
+  fields: OrdersDocAccessFields
+  create: OrdersCreateDocAccess
+  read: OrdersReadDocAccess
+  update: OrdersUpdateDocAccess
+  delete: OrdersDeleteDocAccess
+}
+
+type OrdersDocAccessFields {
+  lines: OrdersDocAccessFields_lines
+  status: OrdersDocAccessFields_status
+  totalAmount: OrdersDocAccessFields_totalAmount
+  updatedAt: OrdersDocAccessFields_updatedAt
+  createdAt: OrdersDocAccessFields_createdAt
+}
+
+type OrdersDocAccessFields_lines {
+  create: OrdersDocAccessFields_lines_Create
+  read: OrdersDocAccessFields_lines_Read
+  update: OrdersDocAccessFields_lines_Update
+  delete: OrdersDocAccessFields_lines_Delete
+}
+
+type OrdersDocAccessFields_lines_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_lines_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_lines_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_lines_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_status {
+  create: OrdersDocAccessFields_status_Create
+  read: OrdersDocAccessFields_status_Read
+  update: OrdersDocAccessFields_status_Update
+  delete: OrdersDocAccessFields_status_Delete
+}
+
+type OrdersDocAccessFields_status_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_status_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_status_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_status_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_totalAmount {
+  create: OrdersDocAccessFields_totalAmount_Create
+  read: OrdersDocAccessFields_totalAmount_Read
+  update: OrdersDocAccessFields_totalAmount_Update
+  delete: OrdersDocAccessFields_totalAmount_Delete
+}
+
+type OrdersDocAccessFields_totalAmount_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_totalAmount_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_totalAmount_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_totalAmount_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_updatedAt {
+  create: OrdersDocAccessFields_updatedAt_Create
+  read: OrdersDocAccessFields_updatedAt_Read
+  update: OrdersDocAccessFields_updatedAt_Update
+  delete: OrdersDocAccessFields_updatedAt_Delete
+}
+
+type OrdersDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_createdAt {
+  create: OrdersDocAccessFields_createdAt_Create
+  read: OrdersDocAccessFields_createdAt_Read
+  update: OrdersDocAccessFields_createdAt_Update
+  delete: OrdersDocAccessFields_createdAt_Delete
+}
+
+type OrdersDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type OrdersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Cart {
+  id: Int
+  product: Product!
+  quantity: Float!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Carts {
+  docs: [Cart]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Cart_where {
+  product: Cart_product_operator
+  quantity: Cart_quantity_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+input Cart_product_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Cart_quantity_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input Cart_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cart_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cart_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Cart_where_and {
+  product: Cart_product_operator
+  quantity: Cart_quantity_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+input Cart_where_or {
+  product: Cart_product_operator
+  quantity: Cart_quantity_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+type cartDocAccess {
+  fields: CartDocAccessFields
+  create: CartCreateDocAccess
+  read: CartReadDocAccess
+  update: CartUpdateDocAccess
+  delete: CartDeleteDocAccess
+}
+
+type CartDocAccessFields {
+  product: CartDocAccessFields_product
+  quantity: CartDocAccessFields_quantity
+  updatedAt: CartDocAccessFields_updatedAt
+  createdAt: CartDocAccessFields_createdAt
+}
+
+type CartDocAccessFields_product {
+  create: CartDocAccessFields_product_Create
+  read: CartDocAccessFields_product_Read
+  update: CartDocAccessFields_product_Update
+  delete: CartDocAccessFields_product_Delete
+}
+
+type CartDocAccessFields_product_Create {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_product_Read {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_product_Update {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_product_Delete {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_quantity {
+  create: CartDocAccessFields_quantity_Create
+  read: CartDocAccessFields_quantity_Read
+  update: CartDocAccessFields_quantity_Update
+  delete: CartDocAccessFields_quantity_Delete
+}
+
+type CartDocAccessFields_quantity_Create {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_quantity_Read {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_quantity_Update {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_quantity_Delete {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_updatedAt {
+  create: CartDocAccessFields_updatedAt_Create
+  read: CartDocAccessFields_updatedAt_Read
+  update: CartDocAccessFields_updatedAt_Update
+  delete: CartDocAccessFields_updatedAt_Delete
+}
+
+type CartDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_createdAt {
+  create: CartDocAccessFields_createdAt_Create
+  read: CartDocAccessFields_createdAt_Read
+  update: CartDocAccessFields_createdAt_Update
+  delete: CartDocAccessFields_createdAt_Delete
+}
+
+type CartDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CartDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CartCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type PayloadPreference {
-  id: String
+  id: Int
   user: PayloadPreference_User_Relationship!
   key: String
   value: JSON
@@ -2351,13 +3706,12 @@ input PayloadPreference_createdAt_operator {
 }
 
 input PayloadPreference_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
@@ -2539,6 +3893,9 @@ type Access {
   users: usersAccess
   products: productsAccess
   media: mediaAccess
+  reviews: reviewsAccess
+  orders: ordersAccess
+  cart: cartAccess
   payload_preferences: payload_preferencesAccess
 }
 
@@ -2689,6 +4046,8 @@ type ProductsFields {
   description: ProductsFields_description
   image: ProductsFields_image
   price: ProductsFields_price
+  rating: ProductsFields_rating
+  variants: ProductsFields_variants
   updatedAt: ProductsFields_updatedAt
   createdAt: ProductsFields_createdAt
 }
@@ -2808,6 +4167,52 @@ type ProductsFields_price_Delete {
   permission: Boolean!
 }
 
+type ProductsFields_rating {
+  create: ProductsFields_rating_Create
+  read: ProductsFields_rating_Read
+  update: ProductsFields_rating_Update
+  delete: ProductsFields_rating_Delete
+}
+
+type ProductsFields_rating_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_rating_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_rating_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_variants {
+  create: ProductsFields_variants_Create
+  read: ProductsFields_variants_Read
+  update: ProductsFields_variants_Update
+  delete: ProductsFields_variants_Delete
+}
+
+type ProductsFields_variants_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_variants_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_variants_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_variants_Delete {
+  permission: Boolean!
+}
+
 type ProductsFields_updatedAt {
   create: ProductsFields_updatedAt_Create
   read: ProductsFields_updatedAt_Read
@@ -2884,6 +4289,7 @@ type mediaAccess {
 
 type MediaFields {
   alt: MediaFields_alt
+  caption: MediaFields_caption
   updatedAt: MediaFields_updatedAt
   createdAt: MediaFields_createdAt
   url: MediaFields_url
@@ -2915,6 +4321,29 @@ type MediaFields_alt_Update {
 }
 
 type MediaFields_alt_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_caption {
+  create: MediaFields_caption_Create
+  read: MediaFields_caption_Read
+  update: MediaFields_caption_Update
+  delete: MediaFields_caption_Delete
+}
+
+type MediaFields_caption_Create {
+  permission: Boolean!
+}
+
+type MediaFields_caption_Read {
+  permission: Boolean!
+}
+
+type MediaFields_caption_Update {
+  permission: Boolean!
+}
+
+type MediaFields_caption_Delete {
   permission: Boolean!
 }
 
@@ -3129,6 +4558,7 @@ type MediaFields_sizes_Delete {
 type MediaFields_sizes_Fields {
   thumbnail: MediaFields_sizes_thumbnail
   card: MediaFields_sizes_card
+  cardLarge: MediaFields_sizes_cardLarge
   tablet: MediaFields_sizes_tablet
 }
 
@@ -3474,6 +4904,177 @@ type MediaFields_sizes_card_filename_Delete {
   permission: Boolean!
 }
 
+type MediaFields_sizes_cardLarge {
+  create: MediaFields_sizes_cardLarge_Create
+  read: MediaFields_sizes_cardLarge_Read
+  update: MediaFields_sizes_cardLarge_Update
+  delete: MediaFields_sizes_cardLarge_Delete
+  fields: MediaFields_sizes_cardLarge_Fields
+}
+
+type MediaFields_sizes_cardLarge_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_Fields {
+  url: MediaFields_sizes_cardLarge_url
+  width: MediaFields_sizes_cardLarge_width
+  height: MediaFields_sizes_cardLarge_height
+  mimeType: MediaFields_sizes_cardLarge_mimeType
+  filesize: MediaFields_sizes_cardLarge_filesize
+  filename: MediaFields_sizes_cardLarge_filename
+}
+
+type MediaFields_sizes_cardLarge_url {
+  create: MediaFields_sizes_cardLarge_url_Create
+  read: MediaFields_sizes_cardLarge_url_Read
+  update: MediaFields_sizes_cardLarge_url_Update
+  delete: MediaFields_sizes_cardLarge_url_Delete
+}
+
+type MediaFields_sizes_cardLarge_url_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_url_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_url_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_url_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_width {
+  create: MediaFields_sizes_cardLarge_width_Create
+  read: MediaFields_sizes_cardLarge_width_Read
+  update: MediaFields_sizes_cardLarge_width_Update
+  delete: MediaFields_sizes_cardLarge_width_Delete
+}
+
+type MediaFields_sizes_cardLarge_width_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_width_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_width_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_width_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_height {
+  create: MediaFields_sizes_cardLarge_height_Create
+  read: MediaFields_sizes_cardLarge_height_Read
+  update: MediaFields_sizes_cardLarge_height_Update
+  delete: MediaFields_sizes_cardLarge_height_Delete
+}
+
+type MediaFields_sizes_cardLarge_height_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_height_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_height_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_height_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_mimeType {
+  create: MediaFields_sizes_cardLarge_mimeType_Create
+  read: MediaFields_sizes_cardLarge_mimeType_Read
+  update: MediaFields_sizes_cardLarge_mimeType_Update
+  delete: MediaFields_sizes_cardLarge_mimeType_Delete
+}
+
+type MediaFields_sizes_cardLarge_mimeType_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_mimeType_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_mimeType_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_mimeType_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filesize {
+  create: MediaFields_sizes_cardLarge_filesize_Create
+  read: MediaFields_sizes_cardLarge_filesize_Read
+  update: MediaFields_sizes_cardLarge_filesize_Update
+  delete: MediaFields_sizes_cardLarge_filesize_Delete
+}
+
+type MediaFields_sizes_cardLarge_filesize_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filesize_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filesize_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filesize_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filename {
+  create: MediaFields_sizes_cardLarge_filename_Create
+  read: MediaFields_sizes_cardLarge_filename_Read
+  update: MediaFields_sizes_cardLarge_filename_Update
+  delete: MediaFields_sizes_cardLarge_filename_Delete
+}
+
+type MediaFields_sizes_cardLarge_filename_Create {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filename_Read {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filename_Update {
+  permission: Boolean!
+}
+
+type MediaFields_sizes_cardLarge_filename_Delete {
+  permission: Boolean!
+}
+
 type MediaFields_sizes_tablet {
   create: MediaFields_sizes_tablet_Create
   read: MediaFields_sizes_tablet_Read
@@ -3665,6 +5266,483 @@ type MediaDeleteAccess {
   where: JSONObject
 }
 
+type reviewsAccess {
+  fields: ReviewsFields
+  create: ReviewsCreateAccess
+  read: ReviewsReadAccess
+  update: ReviewsUpdateAccess
+  delete: ReviewsDeleteAccess
+}
+
+type ReviewsFields {
+  product: ReviewsFields_product
+  author: ReviewsFields_author
+  description: ReviewsFields_description
+  email: ReviewsFields_email
+  rating: ReviewsFields_rating
+  updatedAt: ReviewsFields_updatedAt
+  createdAt: ReviewsFields_createdAt
+}
+
+type ReviewsFields_product {
+  create: ReviewsFields_product_Create
+  read: ReviewsFields_product_Read
+  update: ReviewsFields_product_Update
+  delete: ReviewsFields_product_Delete
+}
+
+type ReviewsFields_product_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_product_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_product_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_product_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_author {
+  create: ReviewsFields_author_Create
+  read: ReviewsFields_author_Read
+  update: ReviewsFields_author_Update
+  delete: ReviewsFields_author_Delete
+}
+
+type ReviewsFields_author_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_author_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_description {
+  create: ReviewsFields_description_Create
+  read: ReviewsFields_description_Read
+  update: ReviewsFields_description_Update
+  delete: ReviewsFields_description_Delete
+}
+
+type ReviewsFields_description_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_description_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_description_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_description_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_email {
+  create: ReviewsFields_email_Create
+  read: ReviewsFields_email_Read
+  update: ReviewsFields_email_Update
+  delete: ReviewsFields_email_Delete
+}
+
+type ReviewsFields_email_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_email_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_email_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_email_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_rating {
+  create: ReviewsFields_rating_Create
+  read: ReviewsFields_rating_Read
+  update: ReviewsFields_rating_Update
+  delete: ReviewsFields_rating_Delete
+}
+
+type ReviewsFields_rating_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_rating_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_rating_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_rating_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_updatedAt {
+  create: ReviewsFields_updatedAt_Create
+  read: ReviewsFields_updatedAt_Read
+  update: ReviewsFields_updatedAt_Update
+  delete: ReviewsFields_updatedAt_Delete
+}
+
+type ReviewsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ReviewsFields_createdAt {
+  create: ReviewsFields_createdAt_Create
+  read: ReviewsFields_createdAt_Read
+  update: ReviewsFields_createdAt_Update
+  delete: ReviewsFields_createdAt_Delete
+}
+
+type ReviewsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ReviewsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ReviewsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ReviewsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ReviewsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ReviewsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ordersAccess {
+  fields: OrdersFields
+  create: OrdersCreateAccess
+  read: OrdersReadAccess
+  update: OrdersUpdateAccess
+  delete: OrdersDeleteAccess
+}
+
+type OrdersFields {
+  lines: OrdersFields_lines
+  status: OrdersFields_status
+  totalAmount: OrdersFields_totalAmount
+  updatedAt: OrdersFields_updatedAt
+  createdAt: OrdersFields_createdAt
+}
+
+type OrdersFields_lines {
+  create: OrdersFields_lines_Create
+  read: OrdersFields_lines_Read
+  update: OrdersFields_lines_Update
+  delete: OrdersFields_lines_Delete
+}
+
+type OrdersFields_lines_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_lines_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_lines_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_lines_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_status {
+  create: OrdersFields_status_Create
+  read: OrdersFields_status_Read
+  update: OrdersFields_status_Update
+  delete: OrdersFields_status_Delete
+}
+
+type OrdersFields_status_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_status_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_status_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_status_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_totalAmount {
+  create: OrdersFields_totalAmount_Create
+  read: OrdersFields_totalAmount_Read
+  update: OrdersFields_totalAmount_Update
+  delete: OrdersFields_totalAmount_Delete
+}
+
+type OrdersFields_totalAmount_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_totalAmount_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_totalAmount_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_totalAmount_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_updatedAt {
+  create: OrdersFields_updatedAt_Create
+  read: OrdersFields_updatedAt_Read
+  update: OrdersFields_updatedAt_Update
+  delete: OrdersFields_updatedAt_Delete
+}
+
+type OrdersFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_createdAt {
+  create: OrdersFields_createdAt_Create
+  read: OrdersFields_createdAt_Read
+  update: OrdersFields_createdAt_Update
+  delete: OrdersFields_createdAt_Delete
+}
+
+type OrdersFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type OrdersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type OrdersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type cartAccess {
+  fields: CartFields
+  create: CartCreateAccess
+  read: CartReadAccess
+  update: CartUpdateAccess
+  delete: CartDeleteAccess
+}
+
+type CartFields {
+  product: CartFields_product
+  quantity: CartFields_quantity
+  updatedAt: CartFields_updatedAt
+  createdAt: CartFields_createdAt
+}
+
+type CartFields_product {
+  create: CartFields_product_Create
+  read: CartFields_product_Read
+  update: CartFields_product_Update
+  delete: CartFields_product_Delete
+}
+
+type CartFields_product_Create {
+  permission: Boolean!
+}
+
+type CartFields_product_Read {
+  permission: Boolean!
+}
+
+type CartFields_product_Update {
+  permission: Boolean!
+}
+
+type CartFields_product_Delete {
+  permission: Boolean!
+}
+
+type CartFields_quantity {
+  create: CartFields_quantity_Create
+  read: CartFields_quantity_Read
+  update: CartFields_quantity_Update
+  delete: CartFields_quantity_Delete
+}
+
+type CartFields_quantity_Create {
+  permission: Boolean!
+}
+
+type CartFields_quantity_Read {
+  permission: Boolean!
+}
+
+type CartFields_quantity_Update {
+  permission: Boolean!
+}
+
+type CartFields_quantity_Delete {
+  permission: Boolean!
+}
+
+type CartFields_updatedAt {
+  create: CartFields_updatedAt_Create
+  read: CartFields_updatedAt_Read
+  update: CartFields_updatedAt_Update
+  delete: CartFields_updatedAt_Delete
+}
+
+type CartFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CartFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CartFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CartFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CartFields_createdAt {
+  create: CartFields_createdAt_Create
+  read: CartFields_createdAt_Read
+  update: CartFields_createdAt_Update
+  delete: CartFields_createdAt_Delete
+}
+
+type CartFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CartFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CartFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CartFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CartCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CartDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type payload_preferencesAccess {
   fields: PayloadPreferencesFields
   create: PayloadPreferencesCreateAccess
@@ -3818,8 +5896,8 @@ type PayloadPreferencesDeleteAccess {
 
 type Mutation {
   createUser(data: mutationUserInput!, draft: Boolean): User
-  updateUser(id: String!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean): User
-  deleteUser(id: String!): User
+  updateUser(id: Int!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean): User
+  deleteUser(id: Int!): User
   refreshTokenUser(token: String): usersRefreshedUser
   logoutUser: String
   unlockUser(email: String!): Boolean!
@@ -3828,14 +5906,23 @@ type Mutation {
   resetPasswordUser(password: String, token: String): usersResetPassword
   verifyEmailUser(token: String): Boolean
   createProduct(data: mutationProductInput!, draft: Boolean): Product
-  updateProduct(id: String!, autosave: Boolean, data: mutationProductUpdateInput!, draft: Boolean): Product
-  deleteProduct(id: String!): Product
+  updateProduct(id: Int!, autosave: Boolean, data: mutationProductUpdateInput!, draft: Boolean): Product
+  deleteProduct(id: Int!): Product
   createMedia(data: mutationMediaInput!, draft: Boolean): Media
-  updateMedia(id: String!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean): Media
-  deleteMedia(id: String!): Media
+  updateMedia(id: Int!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean): Media
+  deleteMedia(id: Int!): Media
+  createReview(data: mutationReviewInput!, draft: Boolean): Review
+  updateReview(id: Int!, autosave: Boolean, data: mutationReviewUpdateInput!, draft: Boolean): Review
+  deleteReview(id: Int!): Review
+  createOrder(data: mutationOrderInput!, draft: Boolean): Order
+  updateOrder(id: Int!, autosave: Boolean, data: mutationOrderUpdateInput!, draft: Boolean): Order
+  deleteOrder(id: Int!): Order
+  createCart(data: mutationCartInput!, draft: Boolean): Cart
+  updateCart(id: Int!, autosave: Boolean, data: mutationCartUpdateInput!, draft: Boolean): Cart
+  deleteCart(id: Int!): Cart
   createPayloadPreference(data: mutationPayloadPreferenceInput!, draft: Boolean): PayloadPreference
-  updatePayloadPreference(id: String!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
-  deletePayloadPreference(id: String!): PayloadPreference
+  updatePayloadPreference(id: Int!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
+  deletePayloadPreference(id: Int!): PayloadPreference
 }
 
 input mutationUserInput {
@@ -3892,6 +5979,8 @@ input mutationProductInput {
   description: JSON!
   image: String!
   price: Float!
+  rating: Float
+  variants: JSON
   updatedAt: String
   createdAt: String
 }
@@ -3902,12 +5991,15 @@ input mutationProductUpdateInput {
   description: JSON
   image: String
   price: Float
+  rating: Float
+  variants: JSON
   updatedAt: String
   createdAt: String
 }
 
 input mutationMediaInput {
   alt: String
+  caption: String
   updatedAt: String
   createdAt: String
   url: String
@@ -3922,6 +6014,7 @@ input mutationMediaInput {
 input mutationMedia_SizesInput {
   thumbnail: mutationMedia_Sizes_ThumbnailInput
   card: mutationMedia_Sizes_CardInput
+  cardLarge: mutationMedia_Sizes_CardLargeInput
   tablet: mutationMedia_Sizes_TabletInput
 }
 
@@ -3943,6 +6036,15 @@ input mutationMedia_Sizes_CardInput {
   filename: String
 }
 
+input mutationMedia_Sizes_CardLargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
 input mutationMedia_Sizes_TabletInput {
   url: String
   width: Float
@@ -3954,6 +6056,7 @@ input mutationMedia_Sizes_TabletInput {
 
 input mutationMediaUpdateInput {
   alt: String
+  caption: String
   updatedAt: String
   createdAt: String
   url: String
@@ -3968,6 +6071,7 @@ input mutationMediaUpdateInput {
 input mutationMediaUpdate_SizesInput {
   thumbnail: mutationMediaUpdate_Sizes_ThumbnailInput
   card: mutationMediaUpdate_Sizes_CardInput
+  cardLarge: mutationMediaUpdate_Sizes_CardLargeInput
   tablet: mutationMediaUpdate_Sizes_TabletInput
 }
 
@@ -3989,6 +6093,15 @@ input mutationMediaUpdate_Sizes_CardInput {
   filename: String
 }
 
+input mutationMediaUpdate_Sizes_CardLargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
 input mutationMediaUpdate_Sizes_TabletInput {
   url: String
   width: Float
@@ -3996,6 +6109,56 @@ input mutationMediaUpdate_Sizes_TabletInput {
   mimeType: String
   filesize: Float
   filename: String
+}
+
+input mutationReviewInput {
+  product: Int
+  author: String!
+  description: JSON!
+  email: String!
+  rating: Float!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationReviewUpdateInput {
+  product: Int
+  author: String
+  description: JSON
+  email: String
+  rating: Float
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationOrderInput {
+  lines: JSON!
+  status: String
+  totalAmount: Float!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationOrderUpdateInput {
+  lines: JSON
+  status: String
+  totalAmount: Float
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCartInput {
+  product: Int
+  quantity: Float!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCartUpdateInput {
+  product: Int
+  quantity: Float
+  updatedAt: String
+  createdAt: String
 }
 
 input mutationPayloadPreferenceInput {
