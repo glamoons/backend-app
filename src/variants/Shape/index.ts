@@ -6,6 +6,7 @@ export const Shape:Block = {
     fields: [
         {
             name: "shape",
+
             label: "Kształt",
             type: "select",
             defaultValue: "circle",
