@@ -10,6 +10,7 @@ export const Color:Block = {
     fields: [
         {
             name: "color",
+
             type: "select",
             defaultValue: "coldWhite",
             hasMany: true,
