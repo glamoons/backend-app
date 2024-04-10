@@ -1,7 +1,4 @@
 import { CollectionConfig } from 'payload/types'
-import { Color } from '../variants/Color'
-import { Shape } from '../variants/Shape'
-import { Size } from '../variants/Size'
 import { ProductVariant } from '../variants/ProductVariant'
 
 export const Products: CollectionConfig = {

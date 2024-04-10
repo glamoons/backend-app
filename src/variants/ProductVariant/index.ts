@@ -20,6 +20,7 @@ export const ProductVariant:Block = {
         },
        {
             name: "items",
+            label: "Wariant",
             type: "blocks",
             blocks: [
                 Color,
