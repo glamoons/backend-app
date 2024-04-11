@@ -5,8 +5,12 @@ export const Cart: CollectionConfig = {
     fields: [
         {
             name: 'product',
-            type: 'relationship',
-            relationTo: 'products',
+            type: 'text',
+            required: true
+        },
+        {
+            name: 'productVariant',
+            type: 'text',
             required: true
         },
         {
