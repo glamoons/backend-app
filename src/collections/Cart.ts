@@ -4,12 +4,22 @@ export const Cart: CollectionConfig = {
     slug: 'cart',
     fields: [
         {
-            name: 'product',
-            type: 'text',
-            required: true
+            name: 'productId',
+            filterOptions: ({ id }) => {
+                if (id) {
+                    return {
+                        productId: {
+                            equals: id
+                        }
+                    }
+                    
+                }
+            },
+            type: 'relationship',
+            relationTo: 'products',
         },
         {
-            name: 'productVariant',
+            name: 'productVariantId',
             type: 'text',
             required: true
         },
