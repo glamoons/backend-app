@@ -1,17 +1,17 @@
 import path from 'path'
 
-import { payloadCloud } from '@payloadcms/plugin-cloud'
-import { postgresAdapter } from '@payloadcms/db-postgres'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
+import { postgresAdapter } from '@payloadcms/db-postgres'
+import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import { buildConfig } from 'payload/config'
 
-import Users from './collections/Users'
-import { Products } from './collections/Products'
 import { Media } from './collections/Media'
-import { Reviews } from './collections/Reviews'
+import { OrdersItems } from './collections/OrderItems'
 import { Orders } from './collections/Orders'
-import { Cart } from './collections/Cart'
+import { Products } from './collections/Products'
+import { Reviews } from './collections/Reviews'
+import Users from './collections/Users'
 
 export default buildConfig({
   admin: {
@@ -19,7 +19,7 @@ export default buildConfig({
     bundler: webpackBundler(),
   },
   editor: slateEditor({}),
-  collections: [Users, Products, Media, Reviews, Orders, Cart],
+  collections: [Users, Products, Media, Reviews, Orders, OrdersItems],
   // csrf: ["https://dev.glamoons.com", 'http://localhost:3000'],
   upload: {
     limits: {
