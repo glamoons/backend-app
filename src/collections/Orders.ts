@@ -2,15 +2,13 @@ import { CollectionConfig } from 'payload/types'
 
 export const Orders: CollectionConfig = {
     slug: 'orders',
+    access: {
+        read: () => true,
+        create: () => true,
+        delete: () => true,
+        update: () => true,
+      },
     fields: [
-        {
-            name: 'lines',
-            type: 'json',
-            admin: {
-                position: 'sidebar'
-            },
-            required: true
-        },
         {
             name: 'status',
             type: 'radio',
@@ -34,9 +32,22 @@ export const Orders: CollectionConfig = {
             ]
         },
         {
+            name: 'stripeCheckoutID',
+            label: 'Stripe Checkout ID',
+            type: 'text',
+            admin: {
+                position: 'sidebar'
+            }
+        },
+        {
             name: 'totalAmount',
             type: 'number',
             required: true
-        }
+        },
+        {
+            name: 'email',
+            label: 'Email',
+            type: 'text',
+        },
     ]
 }
