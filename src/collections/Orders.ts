@@ -1,4 +1,6 @@
 import { CollectionConfig } from 'payload/types'
+import { deliveryAddress } from '../fields/deliveryAddress'
+import { deliveryData } from '../fields/deliveryData'
 
 export const Orders: CollectionConfig = {
     slug: 'orders',
@@ -49,5 +51,24 @@ export const Orders: CollectionConfig = {
             label: 'Email',
             type: 'text',
         },
+        {
+            type: 'tabs',
+            tabs: [
+                {
+                    name: 'address',
+                    label: "Adres wysyłki",
+                    fields: [
+                        deliveryAddress
+                    ]
+                },
+                {
+                    name: 'billingDetails',
+                    label: 'Dane rozliczeniowe',
+                    fields: [
+                        deliveryData
+                    ]
+                }
+            ]
+        }
     ]
 }
