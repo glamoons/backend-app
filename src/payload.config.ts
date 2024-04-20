@@ -12,6 +12,7 @@ import { Orders } from './collections/Orders'
 import { Products } from './collections/Products'
 import { Reviews } from './collections/Reviews'
 import Users from './collections/Users'
+import { Customers } from './collections/Customers'
 
 export default buildConfig({
   admin: {
@@ -19,7 +20,7 @@ export default buildConfig({
     bundler: webpackBundler(),
   },
   editor: slateEditor({}),
-  collections: [Users, Products, Media, Reviews, Orders, OrdersItems],
+  collections: [Users, Products, Media, Reviews, Orders, OrdersItems, Customers],
   // csrf: ["https://dev.glamoons.com", 'http://localhost:3000'],
   upload: {
     limits: {
