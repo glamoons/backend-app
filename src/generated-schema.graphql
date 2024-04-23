@@ -16,9 +16,15 @@ type Query {
   Order(id: Int!, draft: Boolean): Order
   Orders(draft: Boolean, where: Order_where, limit: Int, page: Int, sort: String): Orders
   docAccessOrder(id: Int!): ordersDocAccess
-  Cart(id: Int!, draft: Boolean): Cart
-  Carts(draft: Boolean, where: Cart_where, limit: Int, page: Int, sort: String): Carts
-  docAccessCart(id: Int!): cartDocAccess
+  OrderItem(id: Int!, draft: Boolean): OrderItem
+  OrderItems(draft: Boolean, where: OrderItem_where, limit: Int, page: Int, sort: String): OrderItems
+  docAccessOrderItem(id: Int!): orderItemsDocAccess
+  Customer(id: Int!, draft: Boolean): Customer
+  Customers(draft: Boolean, where: Customer_where, limit: Int, page: Int, sort: String): Customers
+  docAccessCustomer(id: Int!): customersDocAccess
+  Newsletter(id: Int!, draft: Boolean): Newsletter
+  Newsletters(draft: Boolean, where: Newsletter_where, limit: Int, page: Int, sort: String): Newsletters
+  docAccessNewsletter(id: Int!): newsletterDocAccess
   PayloadPreference(id: Int!, draft: Boolean): PayloadPreference
   PayloadPreferences(draft: Boolean, where: PayloadPreference_where, limit: Int, page: Int, sort: String): PayloadPreferences
   docAccessPayloadPreference(id: Int!): payload_preferencesDocAccess
@@ -313,7 +319,7 @@ type Media {
 type Media_Sizes {
   thumbnail: Media_Sizes_Thumbnail
   card: Media_Sizes_Card
-  cardLarge: Media_Sizes_CardLarge
+  laptop: Media_Sizes_Laptop
   tablet: Media_Sizes_Tablet
 }
 
@@ -335,7 +341,7 @@ type Media_Sizes_Card {
   filename: String
 }
 
-type Media_Sizes_CardLarge {
+type Media_Sizes_Laptop {
   url: String
   width: Float
   height: Float
@@ -376,12 +382,12 @@ input Product_Image_where {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
-  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Product_Image_sizes__laptop__url_operator
+  sizes__laptop__width: Product_Image_sizes__laptop__width_operator
+  sizes__laptop__height: Product_Image_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Product_Image_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Product_Image_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Product_Image_sizes__laptop__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -626,7 +632,7 @@ input Product_Image_sizes__card__filename_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__url_operator {
+input Product_Image_sizes__laptop__url_operator {
   equals: String
   not_equals: String
   like: String
@@ -637,7 +643,7 @@ input Product_Image_sizes__cardLarge__url_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__width_operator {
+input Product_Image_sizes__laptop__width_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -647,7 +653,7 @@ input Product_Image_sizes__cardLarge__width_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__height_operator {
+input Product_Image_sizes__laptop__height_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -657,7 +663,7 @@ input Product_Image_sizes__cardLarge__height_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__mimeType_operator {
+input Product_Image_sizes__laptop__mimeType_operator {
   equals: String
   not_equals: String
   like: String
@@ -668,7 +674,7 @@ input Product_Image_sizes__cardLarge__mimeType_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__filesize_operator {
+input Product_Image_sizes__laptop__filesize_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -678,7 +684,7 @@ input Product_Image_sizes__cardLarge__filesize_operator {
   exists: Boolean
 }
 
-input Product_Image_sizes__cardLarge__filename_operator {
+input Product_Image_sizes__laptop__filename_operator {
   equals: String
   not_equals: String
   like: String
@@ -786,12 +792,12 @@ input Product_Image_where_and {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
-  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Product_Image_sizes__laptop__url_operator
+  sizes__laptop__width: Product_Image_sizes__laptop__width_operator
+  sizes__laptop__height: Product_Image_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Product_Image_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Product_Image_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Product_Image_sizes__laptop__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -826,12 +832,12 @@ input Product_Image_where_or {
   sizes__card__mimeType: Product_Image_sizes__card__mimeType_operator
   sizes__card__filesize: Product_Image_sizes__card__filesize_operator
   sizes__card__filename: Product_Image_sizes__card__filename_operator
-  sizes__cardLarge__url: Product_Image_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Product_Image_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Product_Image_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Product_Image_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Product_Image_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Product_Image_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Product_Image_sizes__laptop__url_operator
+  sizes__laptop__width: Product_Image_sizes__laptop__width_operator
+  sizes__laptop__height: Product_Image_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Product_Image_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Product_Image_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Product_Image_sizes__laptop__filename_operator
   sizes__tablet__url: Product_Image_sizes__tablet__url_operator
   sizes__tablet__width: Product_Image_sizes__tablet__width_operator
   sizes__tablet__height: Product_Image_sizes__tablet__height_operator
@@ -843,7 +849,18 @@ input Product_Image_where_or {
   OR: [Product_Image_where_or]
 }
 
-union Product_Variants = Color | Shape | Size
+union Product_Variants = variant
+
+type variant {
+  isDefault: Boolean
+  sku: String!
+  items: [variant_Items!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+union variant_Items = Color | Shape | Size
 
 type Color {
   color: [Color_color!]
@@ -1309,12 +1326,12 @@ input Media_where {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
-  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Media_sizes__laptop__url_operator
+  sizes__laptop__width: Media_sizes__laptop__width_operator
+  sizes__laptop__height: Media_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Media_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Media_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Media_sizes__laptop__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -1559,7 +1576,7 @@ input Media_sizes__card__filename_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__url_operator {
+input Media_sizes__laptop__url_operator {
   equals: String
   not_equals: String
   like: String
@@ -1570,7 +1587,7 @@ input Media_sizes__cardLarge__url_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__width_operator {
+input Media_sizes__laptop__width_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -1580,7 +1597,7 @@ input Media_sizes__cardLarge__width_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__height_operator {
+input Media_sizes__laptop__height_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -1590,7 +1607,7 @@ input Media_sizes__cardLarge__height_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__mimeType_operator {
+input Media_sizes__laptop__mimeType_operator {
   equals: String
   not_equals: String
   like: String
@@ -1601,7 +1618,7 @@ input Media_sizes__cardLarge__mimeType_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__filesize_operator {
+input Media_sizes__laptop__filesize_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -1611,7 +1628,7 @@ input Media_sizes__cardLarge__filesize_operator {
   exists: Boolean
 }
 
-input Media_sizes__cardLarge__filename_operator {
+input Media_sizes__laptop__filename_operator {
   equals: String
   not_equals: String
   like: String
@@ -1718,12 +1735,12 @@ input Media_where_and {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
-  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Media_sizes__laptop__url_operator
+  sizes__laptop__width: Media_sizes__laptop__width_operator
+  sizes__laptop__height: Media_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Media_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Media_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Media_sizes__laptop__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -1758,12 +1775,12 @@ input Media_where_or {
   sizes__card__mimeType: Media_sizes__card__mimeType_operator
   sizes__card__filesize: Media_sizes__card__filesize_operator
   sizes__card__filename: Media_sizes__card__filename_operator
-  sizes__cardLarge__url: Media_sizes__cardLarge__url_operator
-  sizes__cardLarge__width: Media_sizes__cardLarge__width_operator
-  sizes__cardLarge__height: Media_sizes__cardLarge__height_operator
-  sizes__cardLarge__mimeType: Media_sizes__cardLarge__mimeType_operator
-  sizes__cardLarge__filesize: Media_sizes__cardLarge__filesize_operator
-  sizes__cardLarge__filename: Media_sizes__cardLarge__filename_operator
+  sizes__laptop__url: Media_sizes__laptop__url_operator
+  sizes__laptop__width: Media_sizes__laptop__width_operator
+  sizes__laptop__height: Media_sizes__laptop__height_operator
+  sizes__laptop__mimeType: Media_sizes__laptop__mimeType_operator
+  sizes__laptop__filesize: Media_sizes__laptop__filesize_operator
+  sizes__laptop__filename: Media_sizes__laptop__filename_operator
   sizes__tablet__url: Media_sizes__tablet__url_operator
   sizes__tablet__width: Media_sizes__tablet__width_operator
   sizes__tablet__height: Media_sizes__tablet__height_operator
@@ -2054,7 +2071,7 @@ type MediaDocAccessFields_sizes_Delete {
 type MediaDocAccessFields_sizes_Fields {
   thumbnail: MediaDocAccessFields_sizes_thumbnail
   card: MediaDocAccessFields_sizes_card
-  cardLarge: MediaDocAccessFields_sizes_cardLarge
+  laptop: MediaDocAccessFields_sizes_laptop
   tablet: MediaDocAccessFields_sizes_tablet
 }
 
@@ -2400,174 +2417,174 @@ type MediaDocAccessFields_sizes_card_filename_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge {
-  create: MediaDocAccessFields_sizes_cardLarge_Create
-  read: MediaDocAccessFields_sizes_cardLarge_Read
-  update: MediaDocAccessFields_sizes_cardLarge_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_Delete
-  fields: MediaDocAccessFields_sizes_cardLarge_Fields
+type MediaDocAccessFields_sizes_laptop {
+  create: MediaDocAccessFields_sizes_laptop_Create
+  read: MediaDocAccessFields_sizes_laptop_Read
+  update: MediaDocAccessFields_sizes_laptop_Update
+  delete: MediaDocAccessFields_sizes_laptop_Delete
+  fields: MediaDocAccessFields_sizes_laptop_Fields
 }
 
-type MediaDocAccessFields_sizes_cardLarge_Create {
+type MediaDocAccessFields_sizes_laptop_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_Read {
+type MediaDocAccessFields_sizes_laptop_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_Update {
+type MediaDocAccessFields_sizes_laptop_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_Delete {
+type MediaDocAccessFields_sizes_laptop_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_Fields {
-  url: MediaDocAccessFields_sizes_cardLarge_url
-  width: MediaDocAccessFields_sizes_cardLarge_width
-  height: MediaDocAccessFields_sizes_cardLarge_height
-  mimeType: MediaDocAccessFields_sizes_cardLarge_mimeType
-  filesize: MediaDocAccessFields_sizes_cardLarge_filesize
-  filename: MediaDocAccessFields_sizes_cardLarge_filename
+type MediaDocAccessFields_sizes_laptop_Fields {
+  url: MediaDocAccessFields_sizes_laptop_url
+  width: MediaDocAccessFields_sizes_laptop_width
+  height: MediaDocAccessFields_sizes_laptop_height
+  mimeType: MediaDocAccessFields_sizes_laptop_mimeType
+  filesize: MediaDocAccessFields_sizes_laptop_filesize
+  filename: MediaDocAccessFields_sizes_laptop_filename
 }
 
-type MediaDocAccessFields_sizes_cardLarge_url {
-  create: MediaDocAccessFields_sizes_cardLarge_url_Create
-  read: MediaDocAccessFields_sizes_cardLarge_url_Read
-  update: MediaDocAccessFields_sizes_cardLarge_url_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_url_Delete
+type MediaDocAccessFields_sizes_laptop_url {
+  create: MediaDocAccessFields_sizes_laptop_url_Create
+  read: MediaDocAccessFields_sizes_laptop_url_Read
+  update: MediaDocAccessFields_sizes_laptop_url_Update
+  delete: MediaDocAccessFields_sizes_laptop_url_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_url_Create {
+type MediaDocAccessFields_sizes_laptop_url_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_url_Read {
+type MediaDocAccessFields_sizes_laptop_url_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_url_Update {
+type MediaDocAccessFields_sizes_laptop_url_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_url_Delete {
+type MediaDocAccessFields_sizes_laptop_url_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_width {
-  create: MediaDocAccessFields_sizes_cardLarge_width_Create
-  read: MediaDocAccessFields_sizes_cardLarge_width_Read
-  update: MediaDocAccessFields_sizes_cardLarge_width_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_width_Delete
+type MediaDocAccessFields_sizes_laptop_width {
+  create: MediaDocAccessFields_sizes_laptop_width_Create
+  read: MediaDocAccessFields_sizes_laptop_width_Read
+  update: MediaDocAccessFields_sizes_laptop_width_Update
+  delete: MediaDocAccessFields_sizes_laptop_width_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_width_Create {
+type MediaDocAccessFields_sizes_laptop_width_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_width_Read {
+type MediaDocAccessFields_sizes_laptop_width_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_width_Update {
+type MediaDocAccessFields_sizes_laptop_width_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_width_Delete {
+type MediaDocAccessFields_sizes_laptop_width_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_height {
-  create: MediaDocAccessFields_sizes_cardLarge_height_Create
-  read: MediaDocAccessFields_sizes_cardLarge_height_Read
-  update: MediaDocAccessFields_sizes_cardLarge_height_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_height_Delete
+type MediaDocAccessFields_sizes_laptop_height {
+  create: MediaDocAccessFields_sizes_laptop_height_Create
+  read: MediaDocAccessFields_sizes_laptop_height_Read
+  update: MediaDocAccessFields_sizes_laptop_height_Update
+  delete: MediaDocAccessFields_sizes_laptop_height_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_height_Create {
+type MediaDocAccessFields_sizes_laptop_height_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_height_Read {
+type MediaDocAccessFields_sizes_laptop_height_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_height_Update {
+type MediaDocAccessFields_sizes_laptop_height_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_height_Delete {
+type MediaDocAccessFields_sizes_laptop_height_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_mimeType {
-  create: MediaDocAccessFields_sizes_cardLarge_mimeType_Create
-  read: MediaDocAccessFields_sizes_cardLarge_mimeType_Read
-  update: MediaDocAccessFields_sizes_cardLarge_mimeType_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_mimeType_Delete
+type MediaDocAccessFields_sizes_laptop_mimeType {
+  create: MediaDocAccessFields_sizes_laptop_mimeType_Create
+  read: MediaDocAccessFields_sizes_laptop_mimeType_Read
+  update: MediaDocAccessFields_sizes_laptop_mimeType_Update
+  delete: MediaDocAccessFields_sizes_laptop_mimeType_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_mimeType_Create {
+type MediaDocAccessFields_sizes_laptop_mimeType_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_mimeType_Read {
+type MediaDocAccessFields_sizes_laptop_mimeType_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_mimeType_Update {
+type MediaDocAccessFields_sizes_laptop_mimeType_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_mimeType_Delete {
+type MediaDocAccessFields_sizes_laptop_mimeType_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filesize {
-  create: MediaDocAccessFields_sizes_cardLarge_filesize_Create
-  read: MediaDocAccessFields_sizes_cardLarge_filesize_Read
-  update: MediaDocAccessFields_sizes_cardLarge_filesize_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_filesize_Delete
+type MediaDocAccessFields_sizes_laptop_filesize {
+  create: MediaDocAccessFields_sizes_laptop_filesize_Create
+  read: MediaDocAccessFields_sizes_laptop_filesize_Read
+  update: MediaDocAccessFields_sizes_laptop_filesize_Update
+  delete: MediaDocAccessFields_sizes_laptop_filesize_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filesize_Create {
+type MediaDocAccessFields_sizes_laptop_filesize_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filesize_Read {
+type MediaDocAccessFields_sizes_laptop_filesize_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filesize_Update {
+type MediaDocAccessFields_sizes_laptop_filesize_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filesize_Delete {
+type MediaDocAccessFields_sizes_laptop_filesize_Delete {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filename {
-  create: MediaDocAccessFields_sizes_cardLarge_filename_Create
-  read: MediaDocAccessFields_sizes_cardLarge_filename_Read
-  update: MediaDocAccessFields_sizes_cardLarge_filename_Update
-  delete: MediaDocAccessFields_sizes_cardLarge_filename_Delete
+type MediaDocAccessFields_sizes_laptop_filename {
+  create: MediaDocAccessFields_sizes_laptop_filename_Create
+  read: MediaDocAccessFields_sizes_laptop_filename_Read
+  update: MediaDocAccessFields_sizes_laptop_filename_Update
+  delete: MediaDocAccessFields_sizes_laptop_filename_Delete
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filename_Create {
+type MediaDocAccessFields_sizes_laptop_filename_Create {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filename_Read {
+type MediaDocAccessFields_sizes_laptop_filename_Read {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filename_Update {
+type MediaDocAccessFields_sizes_laptop_filename_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_sizes_cardLarge_filename_Delete {
+type MediaDocAccessFields_sizes_laptop_filename_Delete {
   permission: Boolean!
 }
 
@@ -3103,9 +3120,12 @@ type ReviewsDeleteDocAccess {
 
 type Order {
   id: Int
-  lines: JSON!
   status: Order_status
+  stripeCheckoutID: String
   totalAmount: Float!
+  email: String
+  address: Order_Address
+  billingDetails: Order_BillingDetails
   updatedAt: DateTime
   createdAt: DateTime
 }
@@ -3115,6 +3135,30 @@ enum Order_status {
   created
   fulfilled
   paid
+}
+
+type Order_Address {
+  deliveryAddress: Order_Address_DeliveryAddress
+}
+
+type Order_Address_DeliveryAddress {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+type Order_BillingDetails {
+  deliveryData: Order_BillingDetails_DeliveryData
+}
+
+type Order_BillingDetails_DeliveryData {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
 }
 
 type Orders {
@@ -3132,23 +3176,25 @@ type Orders {
 }
 
 input Order_where {
-  lines: Order_lines_operator
   status: Order_status_operator
+  stripeCheckoutID: Order_stripeCheckoutID_operator
   totalAmount: Order_totalAmount_operator
+  email: Order_email_operator
+  address__deliveryAddress__deliveryStreet: Order_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Order_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Order_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Order_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Order_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Order_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Order_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Order_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Order_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Order_billingDetails__deliveryData__vatId_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
   AND: [Order_where_and]
   OR: [Order_where_or]
-}
-
-input Order_lines_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  within: JSON
-  intersects: JSON
 }
 
 input Order_status_operator {
@@ -3166,6 +3212,17 @@ enum Order_status_Input {
   paid
 }
 
+input Order_stripeCheckoutID_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
 input Order_totalAmount_operator {
   equals: Float
   not_equals: Float
@@ -3173,6 +3230,126 @@ input Order_totalAmount_operator {
   greater_than: Float
   less_than_equal: Float
   less_than: Float
+}
+
+input Order_email_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_address__deliveryAddress__deliveryStreet_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_address__deliveryAddress__deliveryCity_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_address__deliveryAddress__deliveryPostalCode_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_address__deliveryAddress__deliveryCountry_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__street_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__city_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__postalCode_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__country_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__companyName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Order_billingDetails__deliveryData__vatId_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
 }
 
 input Order_updatedAt_operator {
@@ -3208,9 +3385,20 @@ input Order_id_operator {
 }
 
 input Order_where_and {
-  lines: Order_lines_operator
   status: Order_status_operator
+  stripeCheckoutID: Order_stripeCheckoutID_operator
   totalAmount: Order_totalAmount_operator
+  email: Order_email_operator
+  address__deliveryAddress__deliveryStreet: Order_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Order_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Order_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Order_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Order_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Order_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Order_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Order_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Order_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Order_billingDetails__deliveryData__vatId_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -3219,9 +3407,20 @@ input Order_where_and {
 }
 
 input Order_where_or {
-  lines: Order_lines_operator
   status: Order_status_operator
+  stripeCheckoutID: Order_stripeCheckoutID_operator
   totalAmount: Order_totalAmount_operator
+  email: Order_email_operator
+  address__deliveryAddress__deliveryStreet: Order_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Order_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Order_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Order_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Order_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Order_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Order_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Order_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Order_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Order_billingDetails__deliveryData__vatId_operator
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
@@ -3238,34 +3437,14 @@ type ordersDocAccess {
 }
 
 type OrdersDocAccessFields {
-  lines: OrdersDocAccessFields_lines
   status: OrdersDocAccessFields_status
+  stripeCheckoutID: OrdersDocAccessFields_stripeCheckoutID
   totalAmount: OrdersDocAccessFields_totalAmount
+  email: OrdersDocAccessFields_email
+  deliveryAddress: OrdersDocAccessFields_deliveryAddress
+  deliveryData: OrdersDocAccessFields_deliveryData
   updatedAt: OrdersDocAccessFields_updatedAt
   createdAt: OrdersDocAccessFields_createdAt
-}
-
-type OrdersDocAccessFields_lines {
-  create: OrdersDocAccessFields_lines_Create
-  read: OrdersDocAccessFields_lines_Read
-  update: OrdersDocAccessFields_lines_Update
-  delete: OrdersDocAccessFields_lines_Delete
-}
-
-type OrdersDocAccessFields_lines_Create {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_lines_Read {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_lines_Update {
-  permission: Boolean!
-}
-
-type OrdersDocAccessFields_lines_Delete {
-  permission: Boolean!
 }
 
 type OrdersDocAccessFields_status {
@@ -3291,6 +3470,29 @@ type OrdersDocAccessFields_status_Delete {
   permission: Boolean!
 }
 
+type OrdersDocAccessFields_stripeCheckoutID {
+  create: OrdersDocAccessFields_stripeCheckoutID_Create
+  read: OrdersDocAccessFields_stripeCheckoutID_Read
+  update: OrdersDocAccessFields_stripeCheckoutID_Update
+  delete: OrdersDocAccessFields_stripeCheckoutID_Delete
+}
+
+type OrdersDocAccessFields_stripeCheckoutID_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_stripeCheckoutID_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_stripeCheckoutID_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_stripeCheckoutID_Delete {
+  permission: Boolean!
+}
+
 type OrdersDocAccessFields_totalAmount {
   create: OrdersDocAccessFields_totalAmount_Create
   read: OrdersDocAccessFields_totalAmount_Read
@@ -3311,6 +3513,323 @@ type OrdersDocAccessFields_totalAmount_Update {
 }
 
 type OrdersDocAccessFields_totalAmount_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_email {
+  create: OrdersDocAccessFields_email_Create
+  read: OrdersDocAccessFields_email_Read
+  update: OrdersDocAccessFields_email_Update
+  delete: OrdersDocAccessFields_email_Delete
+}
+
+type OrdersDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress {
+  create: OrdersDocAccessFields_deliveryAddress_Create
+  read: OrdersDocAccessFields_deliveryAddress_Read
+  update: OrdersDocAccessFields_deliveryAddress_Update
+  delete: OrdersDocAccessFields_deliveryAddress_Delete
+  fields: OrdersDocAccessFields_deliveryAddress_Fields
+}
+
+type OrdersDocAccessFields_deliveryAddress_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_Fields {
+  deliveryStreet: OrdersDocAccessFields_deliveryAddress_deliveryStreet
+  deliveryCity: OrdersDocAccessFields_deliveryAddress_deliveryCity
+  deliveryPostalCode: OrdersDocAccessFields_deliveryAddress_deliveryPostalCode
+  deliveryCountry: OrdersDocAccessFields_deliveryAddress_deliveryCountry
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryStreet {
+  create: OrdersDocAccessFields_deliveryAddress_deliveryStreet_Create
+  read: OrdersDocAccessFields_deliveryAddress_deliveryStreet_Read
+  update: OrdersDocAccessFields_deliveryAddress_deliveryStreet_Update
+  delete: OrdersDocAccessFields_deliveryAddress_deliveryStreet_Delete
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryStreet_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryStreet_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryStreet_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryStreet_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCity {
+  create: OrdersDocAccessFields_deliveryAddress_deliveryCity_Create
+  read: OrdersDocAccessFields_deliveryAddress_deliveryCity_Read
+  update: OrdersDocAccessFields_deliveryAddress_deliveryCity_Update
+  delete: OrdersDocAccessFields_deliveryAddress_deliveryCity_Delete
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCity_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCity_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCity_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCity_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryPostalCode {
+  create: OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Create
+  read: OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Read
+  update: OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Update
+  delete: OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Delete
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryPostalCode_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCountry {
+  create: OrdersDocAccessFields_deliveryAddress_deliveryCountry_Create
+  read: OrdersDocAccessFields_deliveryAddress_deliveryCountry_Read
+  update: OrdersDocAccessFields_deliveryAddress_deliveryCountry_Update
+  delete: OrdersDocAccessFields_deliveryAddress_deliveryCountry_Delete
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCountry_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCountry_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCountry_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryAddress_deliveryCountry_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData {
+  create: OrdersDocAccessFields_deliveryData_Create
+  read: OrdersDocAccessFields_deliveryData_Read
+  update: OrdersDocAccessFields_deliveryData_Update
+  delete: OrdersDocAccessFields_deliveryData_Delete
+  fields: OrdersDocAccessFields_deliveryData_Fields
+}
+
+type OrdersDocAccessFields_deliveryData_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_Fields {
+  street: OrdersDocAccessFields_deliveryData_street
+  city: OrdersDocAccessFields_deliveryData_city
+  postalCode: OrdersDocAccessFields_deliveryData_postalCode
+  country: OrdersDocAccessFields_deliveryData_country
+  companyName: OrdersDocAccessFields_deliveryData_companyName
+  vatId: OrdersDocAccessFields_deliveryData_vatId
+}
+
+type OrdersDocAccessFields_deliveryData_street {
+  create: OrdersDocAccessFields_deliveryData_street_Create
+  read: OrdersDocAccessFields_deliveryData_street_Read
+  update: OrdersDocAccessFields_deliveryData_street_Update
+  delete: OrdersDocAccessFields_deliveryData_street_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_street_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_street_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_street_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_street_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_city {
+  create: OrdersDocAccessFields_deliveryData_city_Create
+  read: OrdersDocAccessFields_deliveryData_city_Read
+  update: OrdersDocAccessFields_deliveryData_city_Update
+  delete: OrdersDocAccessFields_deliveryData_city_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_city_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_city_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_city_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_city_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_postalCode {
+  create: OrdersDocAccessFields_deliveryData_postalCode_Create
+  read: OrdersDocAccessFields_deliveryData_postalCode_Read
+  update: OrdersDocAccessFields_deliveryData_postalCode_Update
+  delete: OrdersDocAccessFields_deliveryData_postalCode_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_postalCode_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_postalCode_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_postalCode_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_postalCode_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_country {
+  create: OrdersDocAccessFields_deliveryData_country_Create
+  read: OrdersDocAccessFields_deliveryData_country_Read
+  update: OrdersDocAccessFields_deliveryData_country_Update
+  delete: OrdersDocAccessFields_deliveryData_country_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_country_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_country_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_country_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_country_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_companyName {
+  create: OrdersDocAccessFields_deliveryData_companyName_Create
+  read: OrdersDocAccessFields_deliveryData_companyName_Read
+  update: OrdersDocAccessFields_deliveryData_companyName_Update
+  delete: OrdersDocAccessFields_deliveryData_companyName_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_companyName_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_companyName_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_companyName_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_companyName_Delete {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_vatId {
+  create: OrdersDocAccessFields_deliveryData_vatId_Create
+  read: OrdersDocAccessFields_deliveryData_vatId_Read
+  update: OrdersDocAccessFields_deliveryData_vatId_Update
+  delete: OrdersDocAccessFields_deliveryData_vatId_Delete
+}
+
+type OrdersDocAccessFields_deliveryData_vatId_Create {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_vatId_Read {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_vatId_Update {
+  permission: Boolean!
+}
+
+type OrdersDocAccessFields_deliveryData_vatId_Delete {
   permission: Boolean!
 }
 
@@ -3380,16 +3899,19 @@ type OrdersDeleteDocAccess {
   where: JSONObject
 }
 
-type Cart {
+type OrderItem {
   id: Int
-  product: Product!
+  order: Order!
   quantity: Float!
+  totalAmount: Float!
+  product: Product!
+  productVariantId: String!
   updatedAt: DateTime
   createdAt: DateTime
 }
 
-type Carts {
-  docs: [Cart]
+type OrderItems {
+  docs: [OrderItem]
   hasNextPage: Boolean
   hasPrevPage: Boolean
   limit: Int
@@ -3402,17 +3924,20 @@ type Carts {
   totalPages: Int
 }
 
-input Cart_where {
-  product: Cart_product_operator
-  quantity: Cart_quantity_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
+input OrderItem_where {
+  order: OrderItem_order_operator
+  quantity: OrderItem_quantity_operator
+  totalAmount: OrderItem_totalAmount_operator
+  product: OrderItem_product_operator
+  productVariantId: OrderItem_productVariantId_operator
+  updatedAt: OrderItem_updatedAt_operator
+  createdAt: OrderItem_createdAt_operator
+  id: OrderItem_id_operator
+  AND: [OrderItem_where_and]
+  OR: [OrderItem_where_or]
 }
 
-input Cart_product_operator {
+input OrderItem_order_operator {
   equals: JSON
   not_equals: JSON
   in: [JSON]
@@ -3420,7 +3945,7 @@ input Cart_product_operator {
   all: [JSON]
 }
 
-input Cart_quantity_operator {
+input OrderItem_quantity_operator {
   equals: Float
   not_equals: Float
   greater_than_equal: Float
@@ -3429,7 +3954,34 @@ input Cart_quantity_operator {
   less_than: Float
 }
 
-input Cart_updatedAt_operator {
+input OrderItem_totalAmount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input OrderItem_product_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input OrderItem_productVariantId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input OrderItem_updatedAt_operator {
   equals: DateTime
   not_equals: DateTime
   greater_than_equal: DateTime
@@ -3440,7 +3992,7 @@ input Cart_updatedAt_operator {
   exists: Boolean
 }
 
-input Cart_createdAt_operator {
+input OrderItem_createdAt_operator {
   equals: DateTime
   not_equals: DateTime
   greater_than_equal: DateTime
@@ -3451,7 +4003,7 @@ input Cart_createdAt_operator {
   exists: Boolean
 }
 
-input Cart_id_operator {
+input OrderItem_id_operator {
   equals: Int
   not_equals: Int
   greater_than_equal: Int
@@ -3461,149 +4013,1489 @@ input Cart_id_operator {
   exists: Boolean
 }
 
-input Cart_where_and {
-  product: Cart_product_operator
-  quantity: Cart_quantity_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
+input OrderItem_where_and {
+  order: OrderItem_order_operator
+  quantity: OrderItem_quantity_operator
+  totalAmount: OrderItem_totalAmount_operator
+  product: OrderItem_product_operator
+  productVariantId: OrderItem_productVariantId_operator
+  updatedAt: OrderItem_updatedAt_operator
+  createdAt: OrderItem_createdAt_operator
+  id: OrderItem_id_operator
+  AND: [OrderItem_where_and]
+  OR: [OrderItem_where_or]
 }
 
-input Cart_where_or {
-  product: Cart_product_operator
-  quantity: Cart_quantity_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
+input OrderItem_where_or {
+  order: OrderItem_order_operator
+  quantity: OrderItem_quantity_operator
+  totalAmount: OrderItem_totalAmount_operator
+  product: OrderItem_product_operator
+  productVariantId: OrderItem_productVariantId_operator
+  updatedAt: OrderItem_updatedAt_operator
+  createdAt: OrderItem_createdAt_operator
+  id: OrderItem_id_operator
+  AND: [OrderItem_where_and]
+  OR: [OrderItem_where_or]
 }
 
-type cartDocAccess {
-  fields: CartDocAccessFields
-  create: CartCreateDocAccess
-  read: CartReadDocAccess
-  update: CartUpdateDocAccess
-  delete: CartDeleteDocAccess
+type orderItemsDocAccess {
+  fields: OrderItemsDocAccessFields
+  create: OrderItemsCreateDocAccess
+  read: OrderItemsReadDocAccess
+  update: OrderItemsUpdateDocAccess
+  delete: OrderItemsDeleteDocAccess
 }
 
-type CartDocAccessFields {
-  product: CartDocAccessFields_product
-  quantity: CartDocAccessFields_quantity
-  updatedAt: CartDocAccessFields_updatedAt
-  createdAt: CartDocAccessFields_createdAt
+type OrderItemsDocAccessFields {
+  order: OrderItemsDocAccessFields_order
+  quantity: OrderItemsDocAccessFields_quantity
+  totalAmount: OrderItemsDocAccessFields_totalAmount
+  product: OrderItemsDocAccessFields_product
+  productVariantId: OrderItemsDocAccessFields_productVariantId
+  updatedAt: OrderItemsDocAccessFields_updatedAt
+  createdAt: OrderItemsDocAccessFields_createdAt
 }
 
-type CartDocAccessFields_product {
-  create: CartDocAccessFields_product_Create
-  read: CartDocAccessFields_product_Read
-  update: CartDocAccessFields_product_Update
-  delete: CartDocAccessFields_product_Delete
+type OrderItemsDocAccessFields_order {
+  create: OrderItemsDocAccessFields_order_Create
+  read: OrderItemsDocAccessFields_order_Read
+  update: OrderItemsDocAccessFields_order_Update
+  delete: OrderItemsDocAccessFields_order_Delete
 }
 
-type CartDocAccessFields_product_Create {
+type OrderItemsDocAccessFields_order_Create {
   permission: Boolean!
 }
 
-type CartDocAccessFields_product_Read {
+type OrderItemsDocAccessFields_order_Read {
   permission: Boolean!
 }
 
-type CartDocAccessFields_product_Update {
+type OrderItemsDocAccessFields_order_Update {
   permission: Boolean!
 }
 
-type CartDocAccessFields_product_Delete {
+type OrderItemsDocAccessFields_order_Delete {
   permission: Boolean!
 }
 
-type CartDocAccessFields_quantity {
-  create: CartDocAccessFields_quantity_Create
-  read: CartDocAccessFields_quantity_Read
-  update: CartDocAccessFields_quantity_Update
-  delete: CartDocAccessFields_quantity_Delete
+type OrderItemsDocAccessFields_quantity {
+  create: OrderItemsDocAccessFields_quantity_Create
+  read: OrderItemsDocAccessFields_quantity_Read
+  update: OrderItemsDocAccessFields_quantity_Update
+  delete: OrderItemsDocAccessFields_quantity_Delete
 }
 
-type CartDocAccessFields_quantity_Create {
+type OrderItemsDocAccessFields_quantity_Create {
   permission: Boolean!
 }
 
-type CartDocAccessFields_quantity_Read {
+type OrderItemsDocAccessFields_quantity_Read {
   permission: Boolean!
 }
 
-type CartDocAccessFields_quantity_Update {
+type OrderItemsDocAccessFields_quantity_Update {
   permission: Boolean!
 }
 
-type CartDocAccessFields_quantity_Delete {
+type OrderItemsDocAccessFields_quantity_Delete {
   permission: Boolean!
 }
 
-type CartDocAccessFields_updatedAt {
-  create: CartDocAccessFields_updatedAt_Create
-  read: CartDocAccessFields_updatedAt_Read
-  update: CartDocAccessFields_updatedAt_Update
-  delete: CartDocAccessFields_updatedAt_Delete
+type OrderItemsDocAccessFields_totalAmount {
+  create: OrderItemsDocAccessFields_totalAmount_Create
+  read: OrderItemsDocAccessFields_totalAmount_Read
+  update: OrderItemsDocAccessFields_totalAmount_Update
+  delete: OrderItemsDocAccessFields_totalAmount_Delete
 }
 
-type CartDocAccessFields_updatedAt_Create {
+type OrderItemsDocAccessFields_totalAmount_Create {
   permission: Boolean!
 }
 
-type CartDocAccessFields_updatedAt_Read {
+type OrderItemsDocAccessFields_totalAmount_Read {
   permission: Boolean!
 }
 
-type CartDocAccessFields_updatedAt_Update {
+type OrderItemsDocAccessFields_totalAmount_Update {
   permission: Boolean!
 }
 
-type CartDocAccessFields_updatedAt_Delete {
+type OrderItemsDocAccessFields_totalAmount_Delete {
   permission: Boolean!
 }
 
-type CartDocAccessFields_createdAt {
-  create: CartDocAccessFields_createdAt_Create
-  read: CartDocAccessFields_createdAt_Read
-  update: CartDocAccessFields_createdAt_Update
-  delete: CartDocAccessFields_createdAt_Delete
+type OrderItemsDocAccessFields_product {
+  create: OrderItemsDocAccessFields_product_Create
+  read: OrderItemsDocAccessFields_product_Read
+  update: OrderItemsDocAccessFields_product_Update
+  delete: OrderItemsDocAccessFields_product_Delete
 }
 
-type CartDocAccessFields_createdAt_Create {
+type OrderItemsDocAccessFields_product_Create {
   permission: Boolean!
 }
 
-type CartDocAccessFields_createdAt_Read {
+type OrderItemsDocAccessFields_product_Read {
   permission: Boolean!
 }
 
-type CartDocAccessFields_createdAt_Update {
+type OrderItemsDocAccessFields_product_Update {
   permission: Boolean!
 }
 
-type CartDocAccessFields_createdAt_Delete {
+type OrderItemsDocAccessFields_product_Delete {
   permission: Boolean!
 }
 
-type CartCreateDocAccess {
+type OrderItemsDocAccessFields_productVariantId {
+  create: OrderItemsDocAccessFields_productVariantId_Create
+  read: OrderItemsDocAccessFields_productVariantId_Read
+  update: OrderItemsDocAccessFields_productVariantId_Update
+  delete: OrderItemsDocAccessFields_productVariantId_Delete
+}
+
+type OrderItemsDocAccessFields_productVariantId_Create {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_productVariantId_Read {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_productVariantId_Update {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_productVariantId_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_updatedAt {
+  create: OrderItemsDocAccessFields_updatedAt_Create
+  read: OrderItemsDocAccessFields_updatedAt_Read
+  update: OrderItemsDocAccessFields_updatedAt_Update
+  delete: OrderItemsDocAccessFields_updatedAt_Delete
+}
+
+type OrderItemsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_createdAt {
+  create: OrderItemsDocAccessFields_createdAt_Create
+  read: OrderItemsDocAccessFields_createdAt_Read
+  update: OrderItemsDocAccessFields_createdAt_Update
+  delete: OrderItemsDocAccessFields_createdAt_Delete
+}
+
+type OrderItemsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type OrderItemsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsCreateDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartReadDocAccess {
+type OrderItemsReadDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartUpdateDocAccess {
+type OrderItemsUpdateDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartDeleteDocAccess {
+type OrderItemsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Customer {
+  id: Int
+  customerName: String!
+  registrationDate: DateTime
+  email: EmailAddress!
+  orders: [Order!]
+  totalExpenses: Float
+  averageOrderValue: Float
+  currency: String
+  phone: String
+  address: Customer_Address
+  billingDetails: Customer_BillingDetails
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Customer_Address {
+  deliveryAddress: Customer_Address_DeliveryAddress
+}
+
+type Customer_Address_DeliveryAddress {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+type Customer_BillingDetails {
+  deliveryData: Customer_BillingDetails_DeliveryData
+}
+
+type Customer_BillingDetails_DeliveryData {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
+}
+
+type Customers {
+  docs: [Customer]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Customer_where {
+  customerName: Customer_customerName_operator
+  registrationDate: Customer_registrationDate_operator
+  email: Customer_email_operator
+  orders: Customer_orders_operator
+  totalExpenses: Customer_totalExpenses_operator
+  averageOrderValue: Customer_averageOrderValue_operator
+  currency: Customer_currency_operator
+  phone: Customer_phone_operator
+  address__deliveryAddress__deliveryStreet: Customer_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Customer_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Customer_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Customer_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Customer_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Customer_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Customer_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Customer_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Customer_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Customer_billingDetails__deliveryData__vatId_operator
+  updatedAt: Customer_updatedAt_operator
+  createdAt: Customer_createdAt_operator
+  id: Customer_id_operator
+  AND: [Customer_where_and]
+  OR: [Customer_where_or]
+}
+
+input Customer_customerName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Customer_registrationDate_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customer_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input Customer_orders_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customer_totalExpenses_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Customer_averageOrderValue_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Customer_currency_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_phone_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_address__deliveryAddress__deliveryStreet_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_address__deliveryAddress__deliveryCity_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_address__deliveryAddress__deliveryPostalCode_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_address__deliveryAddress__deliveryCountry_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__street_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__city_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__postalCode_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__country_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__companyName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customer_billingDetails__deliveryData__vatId_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Customer_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customer_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customer_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Customer_where_and {
+  customerName: Customer_customerName_operator
+  registrationDate: Customer_registrationDate_operator
+  email: Customer_email_operator
+  orders: Customer_orders_operator
+  totalExpenses: Customer_totalExpenses_operator
+  averageOrderValue: Customer_averageOrderValue_operator
+  currency: Customer_currency_operator
+  phone: Customer_phone_operator
+  address__deliveryAddress__deliveryStreet: Customer_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Customer_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Customer_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Customer_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Customer_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Customer_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Customer_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Customer_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Customer_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Customer_billingDetails__deliveryData__vatId_operator
+  updatedAt: Customer_updatedAt_operator
+  createdAt: Customer_createdAt_operator
+  id: Customer_id_operator
+  AND: [Customer_where_and]
+  OR: [Customer_where_or]
+}
+
+input Customer_where_or {
+  customerName: Customer_customerName_operator
+  registrationDate: Customer_registrationDate_operator
+  email: Customer_email_operator
+  orders: Customer_orders_operator
+  totalExpenses: Customer_totalExpenses_operator
+  averageOrderValue: Customer_averageOrderValue_operator
+  currency: Customer_currency_operator
+  phone: Customer_phone_operator
+  address__deliveryAddress__deliveryStreet: Customer_address__deliveryAddress__deliveryStreet_operator
+  address__deliveryAddress__deliveryCity: Customer_address__deliveryAddress__deliveryCity_operator
+  address__deliveryAddress__deliveryPostalCode: Customer_address__deliveryAddress__deliveryPostalCode_operator
+  address__deliveryAddress__deliveryCountry: Customer_address__deliveryAddress__deliveryCountry_operator
+  billingDetails__deliveryData__street: Customer_billingDetails__deliveryData__street_operator
+  billingDetails__deliveryData__city: Customer_billingDetails__deliveryData__city_operator
+  billingDetails__deliveryData__postalCode: Customer_billingDetails__deliveryData__postalCode_operator
+  billingDetails__deliveryData__country: Customer_billingDetails__deliveryData__country_operator
+  billingDetails__deliveryData__companyName: Customer_billingDetails__deliveryData__companyName_operator
+  billingDetails__deliveryData__vatId: Customer_billingDetails__deliveryData__vatId_operator
+  updatedAt: Customer_updatedAt_operator
+  createdAt: Customer_createdAt_operator
+  id: Customer_id_operator
+  AND: [Customer_where_and]
+  OR: [Customer_where_or]
+}
+
+type customersDocAccess {
+  fields: CustomersDocAccessFields
+  create: CustomersCreateDocAccess
+  read: CustomersReadDocAccess
+  update: CustomersUpdateDocAccess
+  delete: CustomersDeleteDocAccess
+}
+
+type CustomersDocAccessFields {
+  customerName: CustomersDocAccessFields_customerName
+  registrationDate: CustomersDocAccessFields_registrationDate
+  email: CustomersDocAccessFields_email
+  orders: CustomersDocAccessFields_orders
+  totalExpenses: CustomersDocAccessFields_totalExpenses
+  averageOrderValue: CustomersDocAccessFields_averageOrderValue
+  currency: CustomersDocAccessFields_currency
+  phone: CustomersDocAccessFields_phone
+  deliveryAddress: CustomersDocAccessFields_deliveryAddress
+  deliveryData: CustomersDocAccessFields_deliveryData
+  updatedAt: CustomersDocAccessFields_updatedAt
+  createdAt: CustomersDocAccessFields_createdAt
+}
+
+type CustomersDocAccessFields_customerName {
+  create: CustomersDocAccessFields_customerName_Create
+  read: CustomersDocAccessFields_customerName_Read
+  update: CustomersDocAccessFields_customerName_Update
+  delete: CustomersDocAccessFields_customerName_Delete
+}
+
+type CustomersDocAccessFields_customerName_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_customerName_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_customerName_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_customerName_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_registrationDate {
+  create: CustomersDocAccessFields_registrationDate_Create
+  read: CustomersDocAccessFields_registrationDate_Read
+  update: CustomersDocAccessFields_registrationDate_Update
+  delete: CustomersDocAccessFields_registrationDate_Delete
+}
+
+type CustomersDocAccessFields_registrationDate_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_registrationDate_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_registrationDate_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_registrationDate_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_email {
+  create: CustomersDocAccessFields_email_Create
+  read: CustomersDocAccessFields_email_Read
+  update: CustomersDocAccessFields_email_Update
+  delete: CustomersDocAccessFields_email_Delete
+}
+
+type CustomersDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_orders {
+  create: CustomersDocAccessFields_orders_Create
+  read: CustomersDocAccessFields_orders_Read
+  update: CustomersDocAccessFields_orders_Update
+  delete: CustomersDocAccessFields_orders_Delete
+}
+
+type CustomersDocAccessFields_orders_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_orders_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_orders_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_orders_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_totalExpenses {
+  create: CustomersDocAccessFields_totalExpenses_Create
+  read: CustomersDocAccessFields_totalExpenses_Read
+  update: CustomersDocAccessFields_totalExpenses_Update
+  delete: CustomersDocAccessFields_totalExpenses_Delete
+}
+
+type CustomersDocAccessFields_totalExpenses_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_totalExpenses_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_totalExpenses_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_totalExpenses_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_averageOrderValue {
+  create: CustomersDocAccessFields_averageOrderValue_Create
+  read: CustomersDocAccessFields_averageOrderValue_Read
+  update: CustomersDocAccessFields_averageOrderValue_Update
+  delete: CustomersDocAccessFields_averageOrderValue_Delete
+}
+
+type CustomersDocAccessFields_averageOrderValue_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_averageOrderValue_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_averageOrderValue_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_averageOrderValue_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_currency {
+  create: CustomersDocAccessFields_currency_Create
+  read: CustomersDocAccessFields_currency_Read
+  update: CustomersDocAccessFields_currency_Update
+  delete: CustomersDocAccessFields_currency_Delete
+}
+
+type CustomersDocAccessFields_currency_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_currency_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_currency_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_currency_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_phone {
+  create: CustomersDocAccessFields_phone_Create
+  read: CustomersDocAccessFields_phone_Read
+  update: CustomersDocAccessFields_phone_Update
+  delete: CustomersDocAccessFields_phone_Delete
+}
+
+type CustomersDocAccessFields_phone_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_phone_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_phone_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_phone_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress {
+  create: CustomersDocAccessFields_deliveryAddress_Create
+  read: CustomersDocAccessFields_deliveryAddress_Read
+  update: CustomersDocAccessFields_deliveryAddress_Update
+  delete: CustomersDocAccessFields_deliveryAddress_Delete
+  fields: CustomersDocAccessFields_deliveryAddress_Fields
+}
+
+type CustomersDocAccessFields_deliveryAddress_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_Fields {
+  deliveryStreet: CustomersDocAccessFields_deliveryAddress_deliveryStreet
+  deliveryCity: CustomersDocAccessFields_deliveryAddress_deliveryCity
+  deliveryPostalCode: CustomersDocAccessFields_deliveryAddress_deliveryPostalCode
+  deliveryCountry: CustomersDocAccessFields_deliveryAddress_deliveryCountry
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryStreet {
+  create: CustomersDocAccessFields_deliveryAddress_deliveryStreet_Create
+  read: CustomersDocAccessFields_deliveryAddress_deliveryStreet_Read
+  update: CustomersDocAccessFields_deliveryAddress_deliveryStreet_Update
+  delete: CustomersDocAccessFields_deliveryAddress_deliveryStreet_Delete
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryStreet_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryStreet_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryStreet_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryStreet_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCity {
+  create: CustomersDocAccessFields_deliveryAddress_deliveryCity_Create
+  read: CustomersDocAccessFields_deliveryAddress_deliveryCity_Read
+  update: CustomersDocAccessFields_deliveryAddress_deliveryCity_Update
+  delete: CustomersDocAccessFields_deliveryAddress_deliveryCity_Delete
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCity_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCity_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCity_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCity_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryPostalCode {
+  create: CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Create
+  read: CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Read
+  update: CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Update
+  delete: CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Delete
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryPostalCode_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCountry {
+  create: CustomersDocAccessFields_deliveryAddress_deliveryCountry_Create
+  read: CustomersDocAccessFields_deliveryAddress_deliveryCountry_Read
+  update: CustomersDocAccessFields_deliveryAddress_deliveryCountry_Update
+  delete: CustomersDocAccessFields_deliveryAddress_deliveryCountry_Delete
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCountry_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCountry_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCountry_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryAddress_deliveryCountry_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData {
+  create: CustomersDocAccessFields_deliveryData_Create
+  read: CustomersDocAccessFields_deliveryData_Read
+  update: CustomersDocAccessFields_deliveryData_Update
+  delete: CustomersDocAccessFields_deliveryData_Delete
+  fields: CustomersDocAccessFields_deliveryData_Fields
+}
+
+type CustomersDocAccessFields_deliveryData_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_Fields {
+  street: CustomersDocAccessFields_deliveryData_street
+  city: CustomersDocAccessFields_deliveryData_city
+  postalCode: CustomersDocAccessFields_deliveryData_postalCode
+  country: CustomersDocAccessFields_deliveryData_country
+  companyName: CustomersDocAccessFields_deliveryData_companyName
+  vatId: CustomersDocAccessFields_deliveryData_vatId
+}
+
+type CustomersDocAccessFields_deliveryData_street {
+  create: CustomersDocAccessFields_deliveryData_street_Create
+  read: CustomersDocAccessFields_deliveryData_street_Read
+  update: CustomersDocAccessFields_deliveryData_street_Update
+  delete: CustomersDocAccessFields_deliveryData_street_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_street_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_street_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_street_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_street_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_city {
+  create: CustomersDocAccessFields_deliveryData_city_Create
+  read: CustomersDocAccessFields_deliveryData_city_Read
+  update: CustomersDocAccessFields_deliveryData_city_Update
+  delete: CustomersDocAccessFields_deliveryData_city_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_city_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_city_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_city_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_city_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_postalCode {
+  create: CustomersDocAccessFields_deliveryData_postalCode_Create
+  read: CustomersDocAccessFields_deliveryData_postalCode_Read
+  update: CustomersDocAccessFields_deliveryData_postalCode_Update
+  delete: CustomersDocAccessFields_deliveryData_postalCode_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_postalCode_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_postalCode_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_postalCode_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_postalCode_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_country {
+  create: CustomersDocAccessFields_deliveryData_country_Create
+  read: CustomersDocAccessFields_deliveryData_country_Read
+  update: CustomersDocAccessFields_deliveryData_country_Update
+  delete: CustomersDocAccessFields_deliveryData_country_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_country_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_country_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_country_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_country_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_companyName {
+  create: CustomersDocAccessFields_deliveryData_companyName_Create
+  read: CustomersDocAccessFields_deliveryData_companyName_Read
+  update: CustomersDocAccessFields_deliveryData_companyName_Update
+  delete: CustomersDocAccessFields_deliveryData_companyName_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_companyName_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_companyName_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_companyName_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_companyName_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_vatId {
+  create: CustomersDocAccessFields_deliveryData_vatId_Create
+  read: CustomersDocAccessFields_deliveryData_vatId_Read
+  update: CustomersDocAccessFields_deliveryData_vatId_Update
+  delete: CustomersDocAccessFields_deliveryData_vatId_Delete
+}
+
+type CustomersDocAccessFields_deliveryData_vatId_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_vatId_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_vatId_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_deliveryData_vatId_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_updatedAt {
+  create: CustomersDocAccessFields_updatedAt_Create
+  read: CustomersDocAccessFields_updatedAt_Read
+  update: CustomersDocAccessFields_updatedAt_Update
+  delete: CustomersDocAccessFields_updatedAt_Delete
+}
+
+type CustomersDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_createdAt {
+  create: CustomersDocAccessFields_createdAt_Create
+  read: CustomersDocAccessFields_createdAt_Read
+  update: CustomersDocAccessFields_createdAt_Update
+  delete: CustomersDocAccessFields_createdAt_Delete
+}
+
+type CustomersDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CustomersDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CustomersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Newsletter {
+  id: Int
+  listIds: [Newsletter_ListIds!]!
+  email: EmailAddress!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Newsletter_ListIds {
+  listId: String
+  title: String
+  id: String
+}
+
+type Newsletters {
+  docs: [Newsletter]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Newsletter_where {
+  listIds__listId: Newsletter_listIds__listId_operator
+  listIds__title: Newsletter_listIds__title_operator
+  listIds__id: Newsletter_listIds__id_operator
+  email: Newsletter_email_operator
+  updatedAt: Newsletter_updatedAt_operator
+  createdAt: Newsletter_createdAt_operator
+  id: Newsletter_id_operator
+  AND: [Newsletter_where_and]
+  OR: [Newsletter_where_or]
+}
+
+input Newsletter_listIds__listId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Newsletter_listIds__title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Newsletter_listIds__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Newsletter_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input Newsletter_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Newsletter_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Newsletter_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Newsletter_where_and {
+  listIds__listId: Newsletter_listIds__listId_operator
+  listIds__title: Newsletter_listIds__title_operator
+  listIds__id: Newsletter_listIds__id_operator
+  email: Newsletter_email_operator
+  updatedAt: Newsletter_updatedAt_operator
+  createdAt: Newsletter_createdAt_operator
+  id: Newsletter_id_operator
+  AND: [Newsletter_where_and]
+  OR: [Newsletter_where_or]
+}
+
+input Newsletter_where_or {
+  listIds__listId: Newsletter_listIds__listId_operator
+  listIds__title: Newsletter_listIds__title_operator
+  listIds__id: Newsletter_listIds__id_operator
+  email: Newsletter_email_operator
+  updatedAt: Newsletter_updatedAt_operator
+  createdAt: Newsletter_createdAt_operator
+  id: Newsletter_id_operator
+  AND: [Newsletter_where_and]
+  OR: [Newsletter_where_or]
+}
+
+type newsletterDocAccess {
+  fields: NewsletterDocAccessFields
+  create: NewsletterCreateDocAccess
+  read: NewsletterReadDocAccess
+  update: NewsletterUpdateDocAccess
+  delete: NewsletterDeleteDocAccess
+}
+
+type NewsletterDocAccessFields {
+  listIds: NewsletterDocAccessFields_listIds
+  email: NewsletterDocAccessFields_email
+  updatedAt: NewsletterDocAccessFields_updatedAt
+  createdAt: NewsletterDocAccessFields_createdAt
+}
+
+type NewsletterDocAccessFields_listIds {
+  create: NewsletterDocAccessFields_listIds_Create
+  read: NewsletterDocAccessFields_listIds_Read
+  update: NewsletterDocAccessFields_listIds_Update
+  delete: NewsletterDocAccessFields_listIds_Delete
+  fields: NewsletterDocAccessFields_listIds_Fields
+}
+
+type NewsletterDocAccessFields_listIds_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_Fields {
+  listId: NewsletterDocAccessFields_listIds_listId
+  title: NewsletterDocAccessFields_listIds_title
+  id: NewsletterDocAccessFields_listIds_id
+}
+
+type NewsletterDocAccessFields_listIds_listId {
+  create: NewsletterDocAccessFields_listIds_listId_Create
+  read: NewsletterDocAccessFields_listIds_listId_Read
+  update: NewsletterDocAccessFields_listIds_listId_Update
+  delete: NewsletterDocAccessFields_listIds_listId_Delete
+}
+
+type NewsletterDocAccessFields_listIds_listId_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_listId_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_listId_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_listId_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_title {
+  create: NewsletterDocAccessFields_listIds_title_Create
+  read: NewsletterDocAccessFields_listIds_title_Read
+  update: NewsletterDocAccessFields_listIds_title_Update
+  delete: NewsletterDocAccessFields_listIds_title_Delete
+}
+
+type NewsletterDocAccessFields_listIds_title_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_title_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_title_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_title_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_id {
+  create: NewsletterDocAccessFields_listIds_id_Create
+  read: NewsletterDocAccessFields_listIds_id_Read
+  update: NewsletterDocAccessFields_listIds_id_Update
+  delete: NewsletterDocAccessFields_listIds_id_Delete
+}
+
+type NewsletterDocAccessFields_listIds_id_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_id_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_id_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_listIds_id_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_email {
+  create: NewsletterDocAccessFields_email_Create
+  read: NewsletterDocAccessFields_email_Read
+  update: NewsletterDocAccessFields_email_Update
+  delete: NewsletterDocAccessFields_email_Delete
+}
+
+type NewsletterDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_updatedAt {
+  create: NewsletterDocAccessFields_updatedAt_Create
+  read: NewsletterDocAccessFields_updatedAt_Read
+  update: NewsletterDocAccessFields_updatedAt_Update
+  delete: NewsletterDocAccessFields_updatedAt_Delete
+}
+
+type NewsletterDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_createdAt {
+  create: NewsletterDocAccessFields_createdAt_Create
+  read: NewsletterDocAccessFields_createdAt_Read
+  update: NewsletterDocAccessFields_createdAt_Update
+  delete: NewsletterDocAccessFields_createdAt_Delete
+}
+
+type NewsletterDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type NewsletterDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type NewsletterCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterDeleteDocAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -3895,7 +5787,9 @@ type Access {
   media: mediaAccess
   reviews: reviewsAccess
   orders: ordersAccess
-  cart: cartAccess
+  orderItems: orderItemsAccess
+  customers: customersAccess
+  newsletter: newsletterAccess
   payload_preferences: payload_preferencesAccess
 }
 
@@ -4558,7 +6452,7 @@ type MediaFields_sizes_Delete {
 type MediaFields_sizes_Fields {
   thumbnail: MediaFields_sizes_thumbnail
   card: MediaFields_sizes_card
-  cardLarge: MediaFields_sizes_cardLarge
+  laptop: MediaFields_sizes_laptop
   tablet: MediaFields_sizes_tablet
 }
 
@@ -4904,174 +6798,174 @@ type MediaFields_sizes_card_filename_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge {
-  create: MediaFields_sizes_cardLarge_Create
-  read: MediaFields_sizes_cardLarge_Read
-  update: MediaFields_sizes_cardLarge_Update
-  delete: MediaFields_sizes_cardLarge_Delete
-  fields: MediaFields_sizes_cardLarge_Fields
+type MediaFields_sizes_laptop {
+  create: MediaFields_sizes_laptop_Create
+  read: MediaFields_sizes_laptop_Read
+  update: MediaFields_sizes_laptop_Update
+  delete: MediaFields_sizes_laptop_Delete
+  fields: MediaFields_sizes_laptop_Fields
 }
 
-type MediaFields_sizes_cardLarge_Create {
+type MediaFields_sizes_laptop_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_Read {
+type MediaFields_sizes_laptop_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_Update {
+type MediaFields_sizes_laptop_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_Delete {
+type MediaFields_sizes_laptop_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_Fields {
-  url: MediaFields_sizes_cardLarge_url
-  width: MediaFields_sizes_cardLarge_width
-  height: MediaFields_sizes_cardLarge_height
-  mimeType: MediaFields_sizes_cardLarge_mimeType
-  filesize: MediaFields_sizes_cardLarge_filesize
-  filename: MediaFields_sizes_cardLarge_filename
+type MediaFields_sizes_laptop_Fields {
+  url: MediaFields_sizes_laptop_url
+  width: MediaFields_sizes_laptop_width
+  height: MediaFields_sizes_laptop_height
+  mimeType: MediaFields_sizes_laptop_mimeType
+  filesize: MediaFields_sizes_laptop_filesize
+  filename: MediaFields_sizes_laptop_filename
 }
 
-type MediaFields_sizes_cardLarge_url {
-  create: MediaFields_sizes_cardLarge_url_Create
-  read: MediaFields_sizes_cardLarge_url_Read
-  update: MediaFields_sizes_cardLarge_url_Update
-  delete: MediaFields_sizes_cardLarge_url_Delete
+type MediaFields_sizes_laptop_url {
+  create: MediaFields_sizes_laptop_url_Create
+  read: MediaFields_sizes_laptop_url_Read
+  update: MediaFields_sizes_laptop_url_Update
+  delete: MediaFields_sizes_laptop_url_Delete
 }
 
-type MediaFields_sizes_cardLarge_url_Create {
+type MediaFields_sizes_laptop_url_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_url_Read {
+type MediaFields_sizes_laptop_url_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_url_Update {
+type MediaFields_sizes_laptop_url_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_url_Delete {
+type MediaFields_sizes_laptop_url_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_width {
-  create: MediaFields_sizes_cardLarge_width_Create
-  read: MediaFields_sizes_cardLarge_width_Read
-  update: MediaFields_sizes_cardLarge_width_Update
-  delete: MediaFields_sizes_cardLarge_width_Delete
+type MediaFields_sizes_laptop_width {
+  create: MediaFields_sizes_laptop_width_Create
+  read: MediaFields_sizes_laptop_width_Read
+  update: MediaFields_sizes_laptop_width_Update
+  delete: MediaFields_sizes_laptop_width_Delete
 }
 
-type MediaFields_sizes_cardLarge_width_Create {
+type MediaFields_sizes_laptop_width_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_width_Read {
+type MediaFields_sizes_laptop_width_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_width_Update {
+type MediaFields_sizes_laptop_width_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_width_Delete {
+type MediaFields_sizes_laptop_width_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_height {
-  create: MediaFields_sizes_cardLarge_height_Create
-  read: MediaFields_sizes_cardLarge_height_Read
-  update: MediaFields_sizes_cardLarge_height_Update
-  delete: MediaFields_sizes_cardLarge_height_Delete
+type MediaFields_sizes_laptop_height {
+  create: MediaFields_sizes_laptop_height_Create
+  read: MediaFields_sizes_laptop_height_Read
+  update: MediaFields_sizes_laptop_height_Update
+  delete: MediaFields_sizes_laptop_height_Delete
 }
 
-type MediaFields_sizes_cardLarge_height_Create {
+type MediaFields_sizes_laptop_height_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_height_Read {
+type MediaFields_sizes_laptop_height_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_height_Update {
+type MediaFields_sizes_laptop_height_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_height_Delete {
+type MediaFields_sizes_laptop_height_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_mimeType {
-  create: MediaFields_sizes_cardLarge_mimeType_Create
-  read: MediaFields_sizes_cardLarge_mimeType_Read
-  update: MediaFields_sizes_cardLarge_mimeType_Update
-  delete: MediaFields_sizes_cardLarge_mimeType_Delete
+type MediaFields_sizes_laptop_mimeType {
+  create: MediaFields_sizes_laptop_mimeType_Create
+  read: MediaFields_sizes_laptop_mimeType_Read
+  update: MediaFields_sizes_laptop_mimeType_Update
+  delete: MediaFields_sizes_laptop_mimeType_Delete
 }
 
-type MediaFields_sizes_cardLarge_mimeType_Create {
+type MediaFields_sizes_laptop_mimeType_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_mimeType_Read {
+type MediaFields_sizes_laptop_mimeType_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_mimeType_Update {
+type MediaFields_sizes_laptop_mimeType_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_mimeType_Delete {
+type MediaFields_sizes_laptop_mimeType_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filesize {
-  create: MediaFields_sizes_cardLarge_filesize_Create
-  read: MediaFields_sizes_cardLarge_filesize_Read
-  update: MediaFields_sizes_cardLarge_filesize_Update
-  delete: MediaFields_sizes_cardLarge_filesize_Delete
+type MediaFields_sizes_laptop_filesize {
+  create: MediaFields_sizes_laptop_filesize_Create
+  read: MediaFields_sizes_laptop_filesize_Read
+  update: MediaFields_sizes_laptop_filesize_Update
+  delete: MediaFields_sizes_laptop_filesize_Delete
 }
 
-type MediaFields_sizes_cardLarge_filesize_Create {
+type MediaFields_sizes_laptop_filesize_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filesize_Read {
+type MediaFields_sizes_laptop_filesize_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filesize_Update {
+type MediaFields_sizes_laptop_filesize_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filesize_Delete {
+type MediaFields_sizes_laptop_filesize_Delete {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filename {
-  create: MediaFields_sizes_cardLarge_filename_Create
-  read: MediaFields_sizes_cardLarge_filename_Read
-  update: MediaFields_sizes_cardLarge_filename_Update
-  delete: MediaFields_sizes_cardLarge_filename_Delete
+type MediaFields_sizes_laptop_filename {
+  create: MediaFields_sizes_laptop_filename_Create
+  read: MediaFields_sizes_laptop_filename_Read
+  update: MediaFields_sizes_laptop_filename_Update
+  delete: MediaFields_sizes_laptop_filename_Delete
 }
 
-type MediaFields_sizes_cardLarge_filename_Create {
+type MediaFields_sizes_laptop_filename_Create {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filename_Read {
+type MediaFields_sizes_laptop_filename_Read {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filename_Update {
+type MediaFields_sizes_laptop_filename_Update {
   permission: Boolean!
 }
 
-type MediaFields_sizes_cardLarge_filename_Delete {
+type MediaFields_sizes_laptop_filename_Delete {
   permission: Boolean!
 }
 
@@ -5474,34 +7368,14 @@ type ordersAccess {
 }
 
 type OrdersFields {
-  lines: OrdersFields_lines
   status: OrdersFields_status
+  stripeCheckoutID: OrdersFields_stripeCheckoutID
   totalAmount: OrdersFields_totalAmount
+  email: OrdersFields_email
+  deliveryAddress: OrdersFields_deliveryAddress
+  deliveryData: OrdersFields_deliveryData
   updatedAt: OrdersFields_updatedAt
   createdAt: OrdersFields_createdAt
-}
-
-type OrdersFields_lines {
-  create: OrdersFields_lines_Create
-  read: OrdersFields_lines_Read
-  update: OrdersFields_lines_Update
-  delete: OrdersFields_lines_Delete
-}
-
-type OrdersFields_lines_Create {
-  permission: Boolean!
-}
-
-type OrdersFields_lines_Read {
-  permission: Boolean!
-}
-
-type OrdersFields_lines_Update {
-  permission: Boolean!
-}
-
-type OrdersFields_lines_Delete {
-  permission: Boolean!
 }
 
 type OrdersFields_status {
@@ -5527,6 +7401,29 @@ type OrdersFields_status_Delete {
   permission: Boolean!
 }
 
+type OrdersFields_stripeCheckoutID {
+  create: OrdersFields_stripeCheckoutID_Create
+  read: OrdersFields_stripeCheckoutID_Read
+  update: OrdersFields_stripeCheckoutID_Update
+  delete: OrdersFields_stripeCheckoutID_Delete
+}
+
+type OrdersFields_stripeCheckoutID_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_stripeCheckoutID_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_stripeCheckoutID_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_stripeCheckoutID_Delete {
+  permission: Boolean!
+}
+
 type OrdersFields_totalAmount {
   create: OrdersFields_totalAmount_Create
   read: OrdersFields_totalAmount_Read
@@ -5547,6 +7444,323 @@ type OrdersFields_totalAmount_Update {
 }
 
 type OrdersFields_totalAmount_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_email {
+  create: OrdersFields_email_Create
+  read: OrdersFields_email_Read
+  update: OrdersFields_email_Update
+  delete: OrdersFields_email_Delete
+}
+
+type OrdersFields_email_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_email_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_email_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_email_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress {
+  create: OrdersFields_deliveryAddress_Create
+  read: OrdersFields_deliveryAddress_Read
+  update: OrdersFields_deliveryAddress_Update
+  delete: OrdersFields_deliveryAddress_Delete
+  fields: OrdersFields_deliveryAddress_Fields
+}
+
+type OrdersFields_deliveryAddress_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_Fields {
+  deliveryStreet: OrdersFields_deliveryAddress_deliveryStreet
+  deliveryCity: OrdersFields_deliveryAddress_deliveryCity
+  deliveryPostalCode: OrdersFields_deliveryAddress_deliveryPostalCode
+  deliveryCountry: OrdersFields_deliveryAddress_deliveryCountry
+}
+
+type OrdersFields_deliveryAddress_deliveryStreet {
+  create: OrdersFields_deliveryAddress_deliveryStreet_Create
+  read: OrdersFields_deliveryAddress_deliveryStreet_Read
+  update: OrdersFields_deliveryAddress_deliveryStreet_Update
+  delete: OrdersFields_deliveryAddress_deliveryStreet_Delete
+}
+
+type OrdersFields_deliveryAddress_deliveryStreet_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryStreet_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryStreet_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryStreet_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCity {
+  create: OrdersFields_deliveryAddress_deliveryCity_Create
+  read: OrdersFields_deliveryAddress_deliveryCity_Read
+  update: OrdersFields_deliveryAddress_deliveryCity_Update
+  delete: OrdersFields_deliveryAddress_deliveryCity_Delete
+}
+
+type OrdersFields_deliveryAddress_deliveryCity_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCity_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCity_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCity_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryPostalCode {
+  create: OrdersFields_deliveryAddress_deliveryPostalCode_Create
+  read: OrdersFields_deliveryAddress_deliveryPostalCode_Read
+  update: OrdersFields_deliveryAddress_deliveryPostalCode_Update
+  delete: OrdersFields_deliveryAddress_deliveryPostalCode_Delete
+}
+
+type OrdersFields_deliveryAddress_deliveryPostalCode_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryPostalCode_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryPostalCode_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryPostalCode_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCountry {
+  create: OrdersFields_deliveryAddress_deliveryCountry_Create
+  read: OrdersFields_deliveryAddress_deliveryCountry_Read
+  update: OrdersFields_deliveryAddress_deliveryCountry_Update
+  delete: OrdersFields_deliveryAddress_deliveryCountry_Delete
+}
+
+type OrdersFields_deliveryAddress_deliveryCountry_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCountry_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCountry_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryAddress_deliveryCountry_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData {
+  create: OrdersFields_deliveryData_Create
+  read: OrdersFields_deliveryData_Read
+  update: OrdersFields_deliveryData_Update
+  delete: OrdersFields_deliveryData_Delete
+  fields: OrdersFields_deliveryData_Fields
+}
+
+type OrdersFields_deliveryData_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_Fields {
+  street: OrdersFields_deliveryData_street
+  city: OrdersFields_deliveryData_city
+  postalCode: OrdersFields_deliveryData_postalCode
+  country: OrdersFields_deliveryData_country
+  companyName: OrdersFields_deliveryData_companyName
+  vatId: OrdersFields_deliveryData_vatId
+}
+
+type OrdersFields_deliveryData_street {
+  create: OrdersFields_deliveryData_street_Create
+  read: OrdersFields_deliveryData_street_Read
+  update: OrdersFields_deliveryData_street_Update
+  delete: OrdersFields_deliveryData_street_Delete
+}
+
+type OrdersFields_deliveryData_street_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_street_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_street_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_street_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_city {
+  create: OrdersFields_deliveryData_city_Create
+  read: OrdersFields_deliveryData_city_Read
+  update: OrdersFields_deliveryData_city_Update
+  delete: OrdersFields_deliveryData_city_Delete
+}
+
+type OrdersFields_deliveryData_city_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_city_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_city_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_city_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_postalCode {
+  create: OrdersFields_deliveryData_postalCode_Create
+  read: OrdersFields_deliveryData_postalCode_Read
+  update: OrdersFields_deliveryData_postalCode_Update
+  delete: OrdersFields_deliveryData_postalCode_Delete
+}
+
+type OrdersFields_deliveryData_postalCode_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_postalCode_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_postalCode_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_postalCode_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_country {
+  create: OrdersFields_deliveryData_country_Create
+  read: OrdersFields_deliveryData_country_Read
+  update: OrdersFields_deliveryData_country_Update
+  delete: OrdersFields_deliveryData_country_Delete
+}
+
+type OrdersFields_deliveryData_country_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_country_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_country_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_country_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_companyName {
+  create: OrdersFields_deliveryData_companyName_Create
+  read: OrdersFields_deliveryData_companyName_Read
+  update: OrdersFields_deliveryData_companyName_Update
+  delete: OrdersFields_deliveryData_companyName_Delete
+}
+
+type OrdersFields_deliveryData_companyName_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_companyName_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_companyName_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_companyName_Delete {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_vatId {
+  create: OrdersFields_deliveryData_vatId_Create
+  read: OrdersFields_deliveryData_vatId_Read
+  update: OrdersFields_deliveryData_vatId_Update
+  delete: OrdersFields_deliveryData_vatId_Delete
+}
+
+type OrdersFields_deliveryData_vatId_Create {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_vatId_Read {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_vatId_Update {
+  permission: Boolean!
+}
+
+type OrdersFields_deliveryData_vatId_Delete {
   permission: Boolean!
 }
 
@@ -5616,129 +7830,971 @@ type OrdersDeleteAccess {
   where: JSONObject
 }
 
-type cartAccess {
-  fields: CartFields
-  create: CartCreateAccess
-  read: CartReadAccess
-  update: CartUpdateAccess
-  delete: CartDeleteAccess
+type orderItemsAccess {
+  fields: OrderItemsFields
+  create: OrderItemsCreateAccess
+  read: OrderItemsReadAccess
+  update: OrderItemsUpdateAccess
+  delete: OrderItemsDeleteAccess
 }
 
-type CartFields {
-  product: CartFields_product
-  quantity: CartFields_quantity
-  updatedAt: CartFields_updatedAt
-  createdAt: CartFields_createdAt
+type OrderItemsFields {
+  order: OrderItemsFields_order
+  quantity: OrderItemsFields_quantity
+  totalAmount: OrderItemsFields_totalAmount
+  product: OrderItemsFields_product
+  productVariantId: OrderItemsFields_productVariantId
+  updatedAt: OrderItemsFields_updatedAt
+  createdAt: OrderItemsFields_createdAt
 }
 
-type CartFields_product {
-  create: CartFields_product_Create
-  read: CartFields_product_Read
-  update: CartFields_product_Update
-  delete: CartFields_product_Delete
+type OrderItemsFields_order {
+  create: OrderItemsFields_order_Create
+  read: OrderItemsFields_order_Read
+  update: OrderItemsFields_order_Update
+  delete: OrderItemsFields_order_Delete
 }
 
-type CartFields_product_Create {
+type OrderItemsFields_order_Create {
   permission: Boolean!
 }
 
-type CartFields_product_Read {
+type OrderItemsFields_order_Read {
   permission: Boolean!
 }
 
-type CartFields_product_Update {
+type OrderItemsFields_order_Update {
   permission: Boolean!
 }
 
-type CartFields_product_Delete {
+type OrderItemsFields_order_Delete {
   permission: Boolean!
 }
 
-type CartFields_quantity {
-  create: CartFields_quantity_Create
-  read: CartFields_quantity_Read
-  update: CartFields_quantity_Update
-  delete: CartFields_quantity_Delete
+type OrderItemsFields_quantity {
+  create: OrderItemsFields_quantity_Create
+  read: OrderItemsFields_quantity_Read
+  update: OrderItemsFields_quantity_Update
+  delete: OrderItemsFields_quantity_Delete
 }
 
-type CartFields_quantity_Create {
+type OrderItemsFields_quantity_Create {
   permission: Boolean!
 }
 
-type CartFields_quantity_Read {
+type OrderItemsFields_quantity_Read {
   permission: Boolean!
 }
 
-type CartFields_quantity_Update {
+type OrderItemsFields_quantity_Update {
   permission: Boolean!
 }
 
-type CartFields_quantity_Delete {
+type OrderItemsFields_quantity_Delete {
   permission: Boolean!
 }
 
-type CartFields_updatedAt {
-  create: CartFields_updatedAt_Create
-  read: CartFields_updatedAt_Read
-  update: CartFields_updatedAt_Update
-  delete: CartFields_updatedAt_Delete
+type OrderItemsFields_totalAmount {
+  create: OrderItemsFields_totalAmount_Create
+  read: OrderItemsFields_totalAmount_Read
+  update: OrderItemsFields_totalAmount_Update
+  delete: OrderItemsFields_totalAmount_Delete
 }
 
-type CartFields_updatedAt_Create {
+type OrderItemsFields_totalAmount_Create {
   permission: Boolean!
 }
 
-type CartFields_updatedAt_Read {
+type OrderItemsFields_totalAmount_Read {
   permission: Boolean!
 }
 
-type CartFields_updatedAt_Update {
+type OrderItemsFields_totalAmount_Update {
   permission: Boolean!
 }
 
-type CartFields_updatedAt_Delete {
+type OrderItemsFields_totalAmount_Delete {
   permission: Boolean!
 }
 
-type CartFields_createdAt {
-  create: CartFields_createdAt_Create
-  read: CartFields_createdAt_Read
-  update: CartFields_createdAt_Update
-  delete: CartFields_createdAt_Delete
+type OrderItemsFields_product {
+  create: OrderItemsFields_product_Create
+  read: OrderItemsFields_product_Read
+  update: OrderItemsFields_product_Update
+  delete: OrderItemsFields_product_Delete
 }
 
-type CartFields_createdAt_Create {
+type OrderItemsFields_product_Create {
   permission: Boolean!
 }
 
-type CartFields_createdAt_Read {
+type OrderItemsFields_product_Read {
   permission: Boolean!
 }
 
-type CartFields_createdAt_Update {
+type OrderItemsFields_product_Update {
   permission: Boolean!
 }
 
-type CartFields_createdAt_Delete {
+type OrderItemsFields_product_Delete {
   permission: Boolean!
 }
 
-type CartCreateAccess {
+type OrderItemsFields_productVariantId {
+  create: OrderItemsFields_productVariantId_Create
+  read: OrderItemsFields_productVariantId_Read
+  update: OrderItemsFields_productVariantId_Update
+  delete: OrderItemsFields_productVariantId_Delete
+}
+
+type OrderItemsFields_productVariantId_Create {
+  permission: Boolean!
+}
+
+type OrderItemsFields_productVariantId_Read {
+  permission: Boolean!
+}
+
+type OrderItemsFields_productVariantId_Update {
+  permission: Boolean!
+}
+
+type OrderItemsFields_productVariantId_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsFields_updatedAt {
+  create: OrderItemsFields_updatedAt_Create
+  read: OrderItemsFields_updatedAt_Read
+  update: OrderItemsFields_updatedAt_Update
+  delete: OrderItemsFields_updatedAt_Delete
+}
+
+type OrderItemsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type OrderItemsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type OrderItemsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type OrderItemsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsFields_createdAt {
+  create: OrderItemsFields_createdAt_Create
+  read: OrderItemsFields_createdAt_Read
+  update: OrderItemsFields_createdAt_Update
+  delete: OrderItemsFields_createdAt_Delete
+}
+
+type OrderItemsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type OrderItemsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type OrderItemsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type OrderItemsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type OrderItemsCreateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartReadAccess {
+type OrderItemsReadAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartUpdateAccess {
+type OrderItemsUpdateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type CartDeleteAccess {
+type OrderItemsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type customersAccess {
+  fields: CustomersFields
+  create: CustomersCreateAccess
+  read: CustomersReadAccess
+  update: CustomersUpdateAccess
+  delete: CustomersDeleteAccess
+}
+
+type CustomersFields {
+  customerName: CustomersFields_customerName
+  registrationDate: CustomersFields_registrationDate
+  email: CustomersFields_email
+  orders: CustomersFields_orders
+  totalExpenses: CustomersFields_totalExpenses
+  averageOrderValue: CustomersFields_averageOrderValue
+  currency: CustomersFields_currency
+  phone: CustomersFields_phone
+  deliveryAddress: CustomersFields_deliveryAddress
+  deliveryData: CustomersFields_deliveryData
+  updatedAt: CustomersFields_updatedAt
+  createdAt: CustomersFields_createdAt
+}
+
+type CustomersFields_customerName {
+  create: CustomersFields_customerName_Create
+  read: CustomersFields_customerName_Read
+  update: CustomersFields_customerName_Update
+  delete: CustomersFields_customerName_Delete
+}
+
+type CustomersFields_customerName_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_customerName_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_customerName_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_customerName_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_registrationDate {
+  create: CustomersFields_registrationDate_Create
+  read: CustomersFields_registrationDate_Read
+  update: CustomersFields_registrationDate_Update
+  delete: CustomersFields_registrationDate_Delete
+}
+
+type CustomersFields_registrationDate_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_registrationDate_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_registrationDate_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_registrationDate_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_email {
+  create: CustomersFields_email_Create
+  read: CustomersFields_email_Read
+  update: CustomersFields_email_Update
+  delete: CustomersFields_email_Delete
+}
+
+type CustomersFields_email_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_email_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_email_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_email_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_orders {
+  create: CustomersFields_orders_Create
+  read: CustomersFields_orders_Read
+  update: CustomersFields_orders_Update
+  delete: CustomersFields_orders_Delete
+}
+
+type CustomersFields_orders_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_orders_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_orders_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_orders_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_totalExpenses {
+  create: CustomersFields_totalExpenses_Create
+  read: CustomersFields_totalExpenses_Read
+  update: CustomersFields_totalExpenses_Update
+  delete: CustomersFields_totalExpenses_Delete
+}
+
+type CustomersFields_totalExpenses_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_totalExpenses_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_totalExpenses_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_totalExpenses_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_averageOrderValue {
+  create: CustomersFields_averageOrderValue_Create
+  read: CustomersFields_averageOrderValue_Read
+  update: CustomersFields_averageOrderValue_Update
+  delete: CustomersFields_averageOrderValue_Delete
+}
+
+type CustomersFields_averageOrderValue_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_averageOrderValue_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_averageOrderValue_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_averageOrderValue_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_currency {
+  create: CustomersFields_currency_Create
+  read: CustomersFields_currency_Read
+  update: CustomersFields_currency_Update
+  delete: CustomersFields_currency_Delete
+}
+
+type CustomersFields_currency_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_currency_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_currency_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_currency_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_phone {
+  create: CustomersFields_phone_Create
+  read: CustomersFields_phone_Read
+  update: CustomersFields_phone_Update
+  delete: CustomersFields_phone_Delete
+}
+
+type CustomersFields_phone_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_phone_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_phone_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_phone_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress {
+  create: CustomersFields_deliveryAddress_Create
+  read: CustomersFields_deliveryAddress_Read
+  update: CustomersFields_deliveryAddress_Update
+  delete: CustomersFields_deliveryAddress_Delete
+  fields: CustomersFields_deliveryAddress_Fields
+}
+
+type CustomersFields_deliveryAddress_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_Fields {
+  deliveryStreet: CustomersFields_deliveryAddress_deliveryStreet
+  deliveryCity: CustomersFields_deliveryAddress_deliveryCity
+  deliveryPostalCode: CustomersFields_deliveryAddress_deliveryPostalCode
+  deliveryCountry: CustomersFields_deliveryAddress_deliveryCountry
+}
+
+type CustomersFields_deliveryAddress_deliveryStreet {
+  create: CustomersFields_deliveryAddress_deliveryStreet_Create
+  read: CustomersFields_deliveryAddress_deliveryStreet_Read
+  update: CustomersFields_deliveryAddress_deliveryStreet_Update
+  delete: CustomersFields_deliveryAddress_deliveryStreet_Delete
+}
+
+type CustomersFields_deliveryAddress_deliveryStreet_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryStreet_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryStreet_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryStreet_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCity {
+  create: CustomersFields_deliveryAddress_deliveryCity_Create
+  read: CustomersFields_deliveryAddress_deliveryCity_Read
+  update: CustomersFields_deliveryAddress_deliveryCity_Update
+  delete: CustomersFields_deliveryAddress_deliveryCity_Delete
+}
+
+type CustomersFields_deliveryAddress_deliveryCity_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCity_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCity_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCity_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryPostalCode {
+  create: CustomersFields_deliveryAddress_deliveryPostalCode_Create
+  read: CustomersFields_deliveryAddress_deliveryPostalCode_Read
+  update: CustomersFields_deliveryAddress_deliveryPostalCode_Update
+  delete: CustomersFields_deliveryAddress_deliveryPostalCode_Delete
+}
+
+type CustomersFields_deliveryAddress_deliveryPostalCode_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryPostalCode_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryPostalCode_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryPostalCode_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCountry {
+  create: CustomersFields_deliveryAddress_deliveryCountry_Create
+  read: CustomersFields_deliveryAddress_deliveryCountry_Read
+  update: CustomersFields_deliveryAddress_deliveryCountry_Update
+  delete: CustomersFields_deliveryAddress_deliveryCountry_Delete
+}
+
+type CustomersFields_deliveryAddress_deliveryCountry_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCountry_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCountry_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryAddress_deliveryCountry_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData {
+  create: CustomersFields_deliveryData_Create
+  read: CustomersFields_deliveryData_Read
+  update: CustomersFields_deliveryData_Update
+  delete: CustomersFields_deliveryData_Delete
+  fields: CustomersFields_deliveryData_Fields
+}
+
+type CustomersFields_deliveryData_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_Fields {
+  street: CustomersFields_deliveryData_street
+  city: CustomersFields_deliveryData_city
+  postalCode: CustomersFields_deliveryData_postalCode
+  country: CustomersFields_deliveryData_country
+  companyName: CustomersFields_deliveryData_companyName
+  vatId: CustomersFields_deliveryData_vatId
+}
+
+type CustomersFields_deliveryData_street {
+  create: CustomersFields_deliveryData_street_Create
+  read: CustomersFields_deliveryData_street_Read
+  update: CustomersFields_deliveryData_street_Update
+  delete: CustomersFields_deliveryData_street_Delete
+}
+
+type CustomersFields_deliveryData_street_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_street_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_street_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_street_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_city {
+  create: CustomersFields_deliveryData_city_Create
+  read: CustomersFields_deliveryData_city_Read
+  update: CustomersFields_deliveryData_city_Update
+  delete: CustomersFields_deliveryData_city_Delete
+}
+
+type CustomersFields_deliveryData_city_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_city_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_city_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_city_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_postalCode {
+  create: CustomersFields_deliveryData_postalCode_Create
+  read: CustomersFields_deliveryData_postalCode_Read
+  update: CustomersFields_deliveryData_postalCode_Update
+  delete: CustomersFields_deliveryData_postalCode_Delete
+}
+
+type CustomersFields_deliveryData_postalCode_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_postalCode_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_postalCode_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_postalCode_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_country {
+  create: CustomersFields_deliveryData_country_Create
+  read: CustomersFields_deliveryData_country_Read
+  update: CustomersFields_deliveryData_country_Update
+  delete: CustomersFields_deliveryData_country_Delete
+}
+
+type CustomersFields_deliveryData_country_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_country_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_country_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_country_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_companyName {
+  create: CustomersFields_deliveryData_companyName_Create
+  read: CustomersFields_deliveryData_companyName_Read
+  update: CustomersFields_deliveryData_companyName_Update
+  delete: CustomersFields_deliveryData_companyName_Delete
+}
+
+type CustomersFields_deliveryData_companyName_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_companyName_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_companyName_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_companyName_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_vatId {
+  create: CustomersFields_deliveryData_vatId_Create
+  read: CustomersFields_deliveryData_vatId_Read
+  update: CustomersFields_deliveryData_vatId_Update
+  delete: CustomersFields_deliveryData_vatId_Delete
+}
+
+type CustomersFields_deliveryData_vatId_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_vatId_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_vatId_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_deliveryData_vatId_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_updatedAt {
+  create: CustomersFields_updatedAt_Create
+  read: CustomersFields_updatedAt_Read
+  update: CustomersFields_updatedAt_Update
+  delete: CustomersFields_updatedAt_Delete
+}
+
+type CustomersFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CustomersFields_createdAt {
+  create: CustomersFields_createdAt_Create
+  read: CustomersFields_createdAt_Read
+  update: CustomersFields_createdAt_Update
+  delete: CustomersFields_createdAt_Delete
+}
+
+type CustomersFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CustomersFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CustomersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CustomersFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CustomersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type newsletterAccess {
+  fields: NewsletterFields
+  create: NewsletterCreateAccess
+  read: NewsletterReadAccess
+  update: NewsletterUpdateAccess
+  delete: NewsletterDeleteAccess
+}
+
+type NewsletterFields {
+  listIds: NewsletterFields_listIds
+  email: NewsletterFields_email
+  updatedAt: NewsletterFields_updatedAt
+  createdAt: NewsletterFields_createdAt
+}
+
+type NewsletterFields_listIds {
+  create: NewsletterFields_listIds_Create
+  read: NewsletterFields_listIds_Read
+  update: NewsletterFields_listIds_Update
+  delete: NewsletterFields_listIds_Delete
+  fields: NewsletterFields_listIds_Fields
+}
+
+type NewsletterFields_listIds_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_Fields {
+  listId: NewsletterFields_listIds_listId
+  title: NewsletterFields_listIds_title
+  id: NewsletterFields_listIds_id
+}
+
+type NewsletterFields_listIds_listId {
+  create: NewsletterFields_listIds_listId_Create
+  read: NewsletterFields_listIds_listId_Read
+  update: NewsletterFields_listIds_listId_Update
+  delete: NewsletterFields_listIds_listId_Delete
+}
+
+type NewsletterFields_listIds_listId_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_listId_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_listId_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_listId_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_title {
+  create: NewsletterFields_listIds_title_Create
+  read: NewsletterFields_listIds_title_Read
+  update: NewsletterFields_listIds_title_Update
+  delete: NewsletterFields_listIds_title_Delete
+}
+
+type NewsletterFields_listIds_title_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_title_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_title_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_title_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_id {
+  create: NewsletterFields_listIds_id_Create
+  read: NewsletterFields_listIds_id_Read
+  update: NewsletterFields_listIds_id_Update
+  delete: NewsletterFields_listIds_id_Delete
+}
+
+type NewsletterFields_listIds_id_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_id_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_id_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_listIds_id_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_email {
+  create: NewsletterFields_email_Create
+  read: NewsletterFields_email_Read
+  update: NewsletterFields_email_Update
+  delete: NewsletterFields_email_Delete
+}
+
+type NewsletterFields_email_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_email_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_email_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_email_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_updatedAt {
+  create: NewsletterFields_updatedAt_Create
+  read: NewsletterFields_updatedAt_Read
+  update: NewsletterFields_updatedAt_Update
+  delete: NewsletterFields_updatedAt_Delete
+}
+
+type NewsletterFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type NewsletterFields_createdAt {
+  create: NewsletterFields_createdAt_Create
+  read: NewsletterFields_createdAt_Read
+  update: NewsletterFields_createdAt_Update
+  delete: NewsletterFields_createdAt_Delete
+}
+
+type NewsletterFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type NewsletterFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type NewsletterFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type NewsletterFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type NewsletterCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type NewsletterDeleteAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -5917,9 +8973,15 @@ type Mutation {
   createOrder(data: mutationOrderInput!, draft: Boolean): Order
   updateOrder(id: Int!, autosave: Boolean, data: mutationOrderUpdateInput!, draft: Boolean): Order
   deleteOrder(id: Int!): Order
-  createCart(data: mutationCartInput!, draft: Boolean): Cart
-  updateCart(id: Int!, autosave: Boolean, data: mutationCartUpdateInput!, draft: Boolean): Cart
-  deleteCart(id: Int!): Cart
+  createOrderItem(data: mutationOrderItemInput!, draft: Boolean): OrderItem
+  updateOrderItem(id: Int!, autosave: Boolean, data: mutationOrderItemUpdateInput!, draft: Boolean): OrderItem
+  deleteOrderItem(id: Int!): OrderItem
+  createCustomer(data: mutationCustomerInput!, draft: Boolean): Customer
+  updateCustomer(id: Int!, autosave: Boolean, data: mutationCustomerUpdateInput!, draft: Boolean): Customer
+  deleteCustomer(id: Int!): Customer
+  createNewsletter(data: mutationNewsletterInput!, draft: Boolean): Newsletter
+  updateNewsletter(id: Int!, autosave: Boolean, data: mutationNewsletterUpdateInput!, draft: Boolean): Newsletter
+  deleteNewsletter(id: Int!): Newsletter
   createPayloadPreference(data: mutationPayloadPreferenceInput!, draft: Boolean): PayloadPreference
   updatePayloadPreference(id: Int!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
   deletePayloadPreference(id: Int!): PayloadPreference
@@ -6014,7 +9076,7 @@ input mutationMediaInput {
 input mutationMedia_SizesInput {
   thumbnail: mutationMedia_Sizes_ThumbnailInput
   card: mutationMedia_Sizes_CardInput
-  cardLarge: mutationMedia_Sizes_CardLargeInput
+  laptop: mutationMedia_Sizes_LaptopInput
   tablet: mutationMedia_Sizes_TabletInput
 }
 
@@ -6036,7 +9098,7 @@ input mutationMedia_Sizes_CardInput {
   filename: String
 }
 
-input mutationMedia_Sizes_CardLargeInput {
+input mutationMedia_Sizes_LaptopInput {
   url: String
   width: Float
   height: Float
@@ -6071,7 +9133,7 @@ input mutationMediaUpdateInput {
 input mutationMediaUpdate_SizesInput {
   thumbnail: mutationMediaUpdate_Sizes_ThumbnailInput
   card: mutationMediaUpdate_Sizes_CardInput
-  cardLarge: mutationMediaUpdate_Sizes_CardLargeInput
+  laptop: mutationMediaUpdate_Sizes_LaptopInput
   tablet: mutationMediaUpdate_Sizes_TabletInput
 }
 
@@ -6093,7 +9155,7 @@ input mutationMediaUpdate_Sizes_CardInput {
   filename: String
 }
 
-input mutationMediaUpdate_Sizes_CardLargeInput {
+input mutationMediaUpdate_Sizes_LaptopInput {
   url: String
   width: Float
   height: Float
@@ -6132,33 +9194,197 @@ input mutationReviewUpdateInput {
 }
 
 input mutationOrderInput {
-  lines: JSON!
   status: String
+  stripeCheckoutID: String
   totalAmount: Float!
+  email: String
+  address: mutationOrder_AddressInput
+  billingDetails: mutationOrder_BillingDetailsInput
   updatedAt: String
   createdAt: String
+}
+
+input mutationOrder_AddressInput {
+  deliveryAddress: mutationOrder_Address_DeliveryAddressInput
+}
+
+input mutationOrder_Address_DeliveryAddressInput {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+input mutationOrder_BillingDetailsInput {
+  deliveryData: mutationOrder_BillingDetails_DeliveryDataInput
+}
+
+input mutationOrder_BillingDetails_DeliveryDataInput {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
 }
 
 input mutationOrderUpdateInput {
-  lines: JSON
   status: String
+  stripeCheckoutID: String
   totalAmount: Float
+  email: String
+  address: mutationOrderUpdate_AddressInput
+  billingDetails: mutationOrderUpdate_BillingDetailsInput
   updatedAt: String
   createdAt: String
 }
 
-input mutationCartInput {
-  product: Int
+input mutationOrderUpdate_AddressInput {
+  deliveryAddress: mutationOrderUpdate_Address_DeliveryAddressInput
+}
+
+input mutationOrderUpdate_Address_DeliveryAddressInput {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+input mutationOrderUpdate_BillingDetailsInput {
+  deliveryData: mutationOrderUpdate_BillingDetails_DeliveryDataInput
+}
+
+input mutationOrderUpdate_BillingDetails_DeliveryDataInput {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
+}
+
+input mutationOrderItemInput {
+  order: Int
   quantity: Float!
+  totalAmount: Float!
+  product: Int
+  productVariantId: String!
   updatedAt: String
   createdAt: String
 }
 
-input mutationCartUpdateInput {
-  product: Int
+input mutationOrderItemUpdateInput {
+  order: Int
   quantity: Float
+  totalAmount: Float
+  product: Int
+  productVariantId: String
   updatedAt: String
   createdAt: String
+}
+
+input mutationCustomerInput {
+  customerName: String!
+  registrationDate: String
+  email: String!
+  orders: [Int]
+  totalExpenses: Float
+  averageOrderValue: Float
+  currency: String
+  phone: String
+  address: mutationCustomer_AddressInput
+  billingDetails: mutationCustomer_BillingDetailsInput
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCustomer_AddressInput {
+  deliveryAddress: mutationCustomer_Address_DeliveryAddressInput
+}
+
+input mutationCustomer_Address_DeliveryAddressInput {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+input mutationCustomer_BillingDetailsInput {
+  deliveryData: mutationCustomer_BillingDetails_DeliveryDataInput
+}
+
+input mutationCustomer_BillingDetails_DeliveryDataInput {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
+}
+
+input mutationCustomerUpdateInput {
+  customerName: String
+  registrationDate: String
+  email: String
+  orders: [Int]
+  totalExpenses: Float
+  averageOrderValue: Float
+  currency: String
+  phone: String
+  address: mutationCustomerUpdate_AddressInput
+  billingDetails: mutationCustomerUpdate_BillingDetailsInput
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCustomerUpdate_AddressInput {
+  deliveryAddress: mutationCustomerUpdate_Address_DeliveryAddressInput
+}
+
+input mutationCustomerUpdate_Address_DeliveryAddressInput {
+  deliveryStreet: String
+  deliveryCity: String
+  deliveryPostalCode: String
+  deliveryCountry: String
+}
+
+input mutationCustomerUpdate_BillingDetailsInput {
+  deliveryData: mutationCustomerUpdate_BillingDetails_DeliveryDataInput
+}
+
+input mutationCustomerUpdate_BillingDetails_DeliveryDataInput {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  companyName: String
+  vatId: Float
+}
+
+input mutationNewsletterInput {
+  listIds: [mutationNewsletter_ListIdsInput!]
+  email: String!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationNewsletter_ListIdsInput {
+  listId: String!
+  title: String!
+  id: String
+}
+
+input mutationNewsletterUpdateInput {
+  listIds: [mutationNewsletterUpdate_ListIdsInput]
+  email: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationNewsletterUpdate_ListIdsInput {
+  listId: String!
+  title: String!
+  id: String
 }
 
 input mutationPayloadPreferenceInput {
