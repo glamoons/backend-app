@@ -38,8 +38,8 @@ export const deliveryData:Field = {
                 {
                     name: 'vatId',
                     label: 'NIP',
-                    type: 'number',
-                    min: 10
+                    type: 'text',
+                    minLength: 10,
                 }
             ]
         }
